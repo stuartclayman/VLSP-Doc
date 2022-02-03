@@ -1,0 +1,96 @@
+\subsection{Probabilistic Generation Configuration Options}
+
+% The table of probability distribution options
+
+% This needs a few passes to layout correctly
+
+{
+  \renewcommand{\arraystretch}{1.6} 
+  \renewcommand{\tabcolsep}{1.1ex}
+
+
+\small
+
+% longtable lines
+\begin{longtable}{ | p{7.5cm} | p{6.5cm} | }
+
+ \caption{Probabilistic Generation Configuration Options} \\
+ \hline \multicolumn{2}{| c |} {\textbf{Configuration Options}}\\
+ \hline  {\textbf{Field}} & {\textbf{Description}} \\
+ \endhead
+
+
+
+\hline
+\footnotesize{\texttt{<ProbabilisticEngine>}} & The top level node for all
+configuration options to the Event engine. \\
+\hline \hline
+
+% NodeBirthDist
+
+\hline
+\footnotesize{\texttt{<NodeBirthDist>}} &
+The node for specific options for Router node birth
+\\
+
+\hline
+\footnotesize{\texttt{<NodeBirthDist> $\rightarrow$ <ProbElement>}} &
+A probability distribution specification for a NodeBirthDist. \\
+
+\hline
+\footnotesize{\texttt{<NodeBirthDist> $\rightarrow$ <ProbElement> $\rightarrow$ <Type>}} &
+The type of the probability distribution.
+\newline
+Options are \texttt{Uniform}, \texttt{Exponential}, \texttt{LogNormal}, or \texttt{PoissonPlus}
+ \\
+
+\hline 
+\hline
+
+% NodeDeathDist
+
+\hline 
+\footnotesize{\texttt{<NodeDeathDist>}} &
+The node for specific options for Router node death . \\
+
+\hline
+\footnotesize{\texttt{<NodeDeathDist> $\rightarrow$ <ProbElement>}} &
+. \\
+
+\hline
+\footnotesize{\texttt{<NodeDeathDist> $\rightarrow$ <ProbElement> $\rightarrow$ <Type>}} &
+The type of the probability distribution.
+\newline
+Options are \texttt{Uniform}, \texttt{Exponential}, \texttt{LogNormal}, or \texttt{PoissonPlus}
+ \\
+
+\hline 
+\hline
+
+% LinkCreateDist
+
+\hline 
+\footnotesize{\texttt{<LinkCreateDist>}} &
+The node for specific options for creation of new links . \\
+
+\hline
+\footnotesize{\texttt{<LinkCreateDist> $\rightarrow$ <ProbElement>}} &
+. \\
+
+\hline
+\footnotesize{\texttt{<LinkCreateDist> $\rightarrow$ <ProbElement> $\rightarrow$ <Type>}} &
+The type of the probability distribution.
+\newline
+Options are \texttt{Uniform}, \texttt{Exponential}, \texttt{LogNormal}, or \texttt{PoissonPlus}
+ \\
+
+\hline
+
+
+\end{longtable}
+
+
+
+\normalsize
+
+}

@@ -1,0 +1,157 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[a4paper,width=15cm, left=3cm]{geometry}   %scale=0.7
+\usepackage{supertabular}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{float}
+\usepackage{setspace}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{latexsym}
+\usepackage[pdftex]{hyperref}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{needspace}
+
+\spacing{1.213}
+
+\setlist[itemize]{noitemsep} 
+%\setlist[itemize]{itemsep=1cm}
+
+\usepackage[tight,footnotesize]{subfigure}
+
+\usepackage{changepage}   % for the adjustwidth environment
+
+\usepackage{showframe} % show page borders
+\renewcommand*\ShowFrameLinethickness{.2pt}
+\definecolor{palegray}{gray}{0.8}
+\renewcommand*\ShowFrameColor{\color{palegray}}
+
+\usepackage{listings}
+
+\lstdefinelanguage{Java} {
+    basicstyle={\fontsize{10.4}{12}\ttfamily},columns=flexible,mathescape=true
+}
+
+\lstdefinelanguage{json} {
+  basicstyle={\fontsize{10.4}{12}\ttfamily},
+  breaklines=true,language=java,columns=flexible, breakatwhitespace=true,
+}
+
+\lstdefinelanguage{config} {
+  basicstyle={\fontsize{10.6}{12}\ttfamily},
+  breaklines=true,columns=flexible, breakatwhitespace=true,
+  frame=single, basicstyle=\scriptsize\ttfamily
+}
+
+
+
+\newcommand{\code}[1]{%
+  \vspace{0.8em} \small{ \texttt{#1}} \normalsize \vspace{1em}%
+}
+
+\newcommand{\smalltt}[1]{%
+  \footnotesize{ \texttt{#1}}%
+}
+
+\renewcommand{\appendix}[1]{%
+   \newpage \section{#1}%
+}
+
+
+\definecolor{palegray}{gray}{0.8}
+\definecolor{midgray}{gray}{0.6}
+
+\newcommand{\hr}{%
+  \needspace{5\baselineskip} \noindent{\color{midgray}\noindent\rule{\textwidth}{1pt}}%
+  \vspace{\glueexpr\baselineskip - 4pt plus 0pt minus 15pt\relax}
+}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,positioning,matrix}
+
+\begin{document}
+
+\title{A Guide to User Space Routing -- \\
+VLSP -- The Very Lightweight Network \& Service Platform}
+\date{Jan 2018}
+\author{Stuart Clayman}
+%svjour2
+%\subtitle{Very Lightweight Network \& Service Platform}
+%\institute {Dept. of Electronic Engineering, University College London}
+
+
+\maketitle
+
+
+\input{abstract}
+
+\section{Introduction}
+\label{chap:intro}
+\input{intro}
+
+\section{The Platform}
+\label{chap:platform}
+\input{platform}
+
+\section{Usage}
+\label{chap:usage}
+\input{usage}
+
+\section{Internal Design of Elements}
+\label{chap:design}
+\input{design}
+
+\section{System Programmability}
+\label{chap:programmability}
+\input{programmability}
+
+%\section{Summary}
+%\label{chap:summary}
+%\input{summary}
+
+\appendix{Appendix - Configuration Options}
+\label{chap:config}
+\input{config}
+
+\appendix{Appendix - REST API Component Interaction}
+\label{chap:restapi}
+\input{rest}
+
+\appendix{Appendix - Vim Client Methods}
+\label{chap:vimclient}
+\input{vimclient}
+
+\appendix{Appendix - Socket Interface Methods}
+\label{chap:methods}
+\input{methods}
+
+\appendix{Appendix - Datagram} 
+\label{chap:datagram}
+\input{datagram}
+
+\appendix{Appendix - Log Files}
+\label{chap:logfiles}
+\input{logfiles}
+
+\appendix{Appendix - Java Packages}
+\label{chap:packages}
+\input{packages}
+
+\appendix{Appendix - Router Commands}
+\label{chap:mcrp}
+\input{mcrp}
+
+
+\appendix{Acknowledgements}
+\input{acknowledgements}
+
+
+% insert the table of contents
+\newpage \tableofcontents
+
+\end{document}
+

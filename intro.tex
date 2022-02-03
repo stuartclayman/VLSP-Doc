@@ -1,0 +1,263 @@
+This document gives an overview of the \emph{VLSP}
+framework - sometimes called  \emph{User Space Routing} as it does
+everything in user-space.
+We have designed a  testbed called
+the \emph{Very Lightweight Network \& Service Platform} based on this framework.
+It uses a set of Virtual Routers and Virtual Network Connections to
+create a test  environment which can easily accommodate
+ (i) fast setup and teardown of a Virtual Router,
+and (ii) fast setup and teardown of a Virtual Connection.
+Each Virtual Router can run small programs and service elements. 
+
+The platform consists of a number of virtual routers running
+as Java virtual machines (JVMs) across a  number of physical machines.
+The routers are logically independent software entities which, as with
+real routers, communicate with each other via network
+interfaces.  The network traffic is made up of datagrams, which are
+send to and from each router. The datagrams are not real UDP
+datagrams, but are our own virtual datagrams (called USR datagrams) which are
+used.
+
+The platform has three components, the major one of 
+which is the ``Router'' itself.  They are complemented by a
+lightweight ``Local Controller'' which is similar to a hypervisor and has the role of sending instructions to start up 
+or shutdown routers on the local machine and for routers to setup or
+tear-down connections with other virtual routers.  The whole testbed
+is supervised by a ``Global Controller''.  
+This software entity is like a combined Virtual Infrastructure Management (VIM) / Orchestrator,
+%does not exist on a real running virtual router system but,
+and has the role of a
+co-ordinator.  That is to say, it informs 
+Local Controllers when to start up and shut down routers and when to 
+connect them to each other or disconnect them from each other.
+%In a real system these decisions might be made by the management
+%system.
+
+
+Since its inception, VLSP has been used in many experimental
+situations that have benefited from its flexibility, adaptability,
+lightweightness, and scalability.
+VLSP achieves better simplicity and non-functional characteristics
+over using a hypervisor running a standard virtual machine and
+standard OS (i.e. improved scalability; lower resource utilization;
+quicker startup speed; reduced heaviness; eliminate the issue where
+most of the router functionality is not needed; and more networking
+flexibility).  VLSP is fully distributed and modular. This has
+been achieved, as the management components as well as the host
+controllers and the virtual entities themselves can be deployed across
+any number of physical hosts interacting via REST calls.
+
+
+\noindent From the experimental usage of VLSP we have determined:
+\begin{description}[leftmargin=1em,labelindent=0,itemsep=3pt]
+\item \textit{What is VLSP good for?}
+
+\begin{itemize}
+\item Testing and evaluating alternative SDN / NFV scenarios
+\item Mid scale tests of network software written in Java (100s and likely 
+1000s of virtual routers).
+\item Testing software robustness to ``unexpected" network conditions
+(sudden ``rude" start up/shut down exposes software deficiencies).
+\item Testing software robustness to unreliable networks.
+\item A compromise between simulation (realism questionable) and large
+testbed (requires many physical machines).
+\item Comparing simulation with testbed results
+\end{itemize}
+
+\item \textit{What is VLSP \emph{not} yet good for?}
+
+\begin{itemize}
+\item It is not optimized for forwarding performance, compared to a real router it routes packets at a slower speed and uses more overhead (i.e. due to the focus on the support of new network management and control features).
+\item It is difficult to support facilities and protocols that rely on maximum bandwidth
+  calculations, e.g. traffic engineering algorithms estimating
+  the link bandwidth.
+  \item The direct interaction with or the driving of hardware interfaces
+  is out not currently addressed. % in the current implementation.
+%  has space for performance improvements.
+\end{itemize}
+
+\end{description}
+
+
+
+\subsection{Motivation}
+
+There were many motivations for designing and building the \emph{User Space Routing}
+framework.  These were accumulated from experience on various research
+projects, including RESERVOIR which investigated running services in virtual machines, and
+the AutoI project, which investigated the virtualization of network
+elements.
+It was found that the use of a hypervisor and the associated virtual
+machines did work as expected and as required, however, there were
+some issues that hindered various experimental situations.
+
+We found that using a hypervisor and virtual machines added only 5\%
+to 10\% overhead to operations, compared to running the same
+operations in the physical machine, which is most cases was entirely
+acceptable.  The small loss of efficiency was easily overcome by the
+flexibility of having virtual machines.
+In terms of experimental and research issues, some were general issues
+and others were specific to the domain. We found the following general
+issues:
+
+\begin{itemize}[itemsep=1ex]
+\item the number of virtual machines that can run on a physical host
+  is limited.  This can be due to the actual resources of the physical
+  machine that need to be shared (such as the number of cores and the
+  amount of memory available), together with the switching
+  capabilities of the hypervisor.
+
+\item the speed of startup of a virtual machine can be quite
+  slow. Although virtual machines boot up in the same order of
+  magnitude as a physical host, there are extra layers and
+  inefficiencies that slow them down.  Also, if many virtual
+  machines are started concurrently, then we observe that the physical
+  machine and the hypervisor thrash trying to resolve resource
+  utilization. 
+
+\item the size of a virtual machine image is quite large.  A virtual
+  machine has to have a disc image which contains a full operating
+  system and the applications needed for the relevant tasks.  To start
+  a virtual machine, the operating system needs to be booted and then
+  the applications started.  So every virtualized application needs
+  the overhead of a full OS.
+
+\end{itemize}
+
+\noindent and we found the following issues that were more domain
+specific:
+
+\begin{itemize}[itemsep=1ex]
+
+\item in terms of virtual networks, and virtualized routers in
+  particular, we observered that 95\% of the router functionality we
+  never utilized in any of the experiments that were run.  Although
+  software routers such a XORP and Quagga allow anyone to play and
+  evaluated soft networks, the overhead of a virtual machine, with a
+  full OS, and an application where only 2\% is used, seems to be an
+  ineffective approach for many situations.
+
+\item when trying to configure the IP networking of virtual machines
+  and virtual routers, there are some serious hurdles.  The virtual
+  machines do not talk directly to the network, but go via the
+  hypervisor.  The hypervisor has various schemes for connecting
+  virtual machines to the underlying network, each of which has
+  different behaviour.  In most situations where experimentation of
+  virtual routers is required, there needs to be a large range of IP
+  addresses available.  However, this is often hard to come by.
+  We found that the limits of addressing, the IP networking
+  configuration, and virtual machine to virtual machine
+  interoperability a hindrance to network topology and network flexibility.
+
+
+\end{itemize}
+
+\noindent It was felt that to make more progress in the area of
+dynamic and virtual networking experimentation and research, we needed
+to design and build a testbed that did not have these limits, but still retain 
+virtual machine technology.
+
+The main goals of the testbed over using a hypervisor running a
+standard virtual machine and standard OS are to have:
+
+\begin{itemize}
+\item better scalability
+\item lower resource utilization
+\item quicker startup speed 
+\item reduced heaviness 
+\item eliminate the issue where 95\% of the router functionality not needed
+\item more networking flexibility
+\end{itemize}
+
+\noindent The choice was made to write our own simple router with
+simple service capabilities, in Java, that
+could run in a Java Virtual Machine (the JVM).
+
+\subsection{Benefits}
+
+The benefits of a lightweight VM that includes a simple router and the
+basic capabilities of a service component are: 
+
+\begin{itemize}
+\item it is possible to run many more routers on a host
+\item it is easier to test scalability and stability
+\item it is possible do enhanced monitoring and management evaluations
+\item it provides a different way to do virtual networks: we can
+  create arbitrary topologies using virtual routers 
+\item it is possible to do more evaluations of network management and
+orchestration functions by not
+using complete routers and full services
+\end{itemize}
+
+\noindent In general, it is a more effective platform for
+experimenting with many aspects of virtual networks, management of
+virtual elements, and orchestration experiments.
+
+The VLSP integrates and unifies management of networks,
+compute, and services into a
+single platform.
+The whole system, including a lightweight virtual router, was
+designed and built from scratch to enable flexible experimentation of
+virtual infrastructures.  VLSP has the following
+advantages:
+
+\begin{description}[leftmargin=1.5em,labelindent=0,itemsep=3pt]
+
+\item \textit{Lightweight virtual router implementation:}
+to allow evaluation of diverse scenarios, including the
+testing of various management lifecycle schemes.
+It allows the testing of software 
+robustness to ``unexpected" network/node conditions
+(such as sudden start up/shut down events exposing software deficiencies),
+where a virtual element can disappear at run-time under management control.
+VLSP is a
+positioned between simulation (realism questionable) and large testbed
+(requires many servers).
+Lightweight routers being deployed and managed in a distributed environment, suitable for reliability and scalability tests.
+
+\item \textit{Distributed infrastructure implementing logically-centralized management and control:}
+By employing the SDN paradigm, while
+avoiding overflowing centralized components,
+to support optimizations,
+based on centralized decisions using a global system picture 
+ derived from an integrated monitoring infrastructure based on
+Lattice \cite{lattice}.
+It also supports flexible and adaptable service provisioning, plus aspects
+beyond traffic engineering, 
+(e.g. adaptable service deployment /
+operation, optimized distributed node placement etc).
+
+%Hierarchical and distributed control components that perform scalable and logically-centralized network control, without overloading centralized software nodes.
+
+\item \textit{Experimentation on management:} 
+ to focus on the experimentation of distributed management and
+control components of software-defined infrastructures rather
+than data plane performance.
+Along these lines,
+ VLSP brings the following benefits:
+ (i) more routers can be deployed
+ on each host, making it easier to test scalability and stability;
+ (ii) enhanced distributed management, control and monitoring evaluations can be carried out, which is difficult to achieve in a running environment using a number of deployed data centers;
+(iii) arbitrary topologies can be created using virtual routers, providing a more general way to form virtual networks; 
+(iii) suitable for both experimentation with virtual networks and
+lightweight virtual servers; and (iv)  supports experiments with
+dynamic topologies (such as migratable virtual routers)
+ and mobile extensions of the network infrastructure). 
+
+\item \textit{Support of integrated SDN and NFV environments:}
+to uncover the potential of
+virtualized SDN solutions and NFV deployments, in a naturally
+integrated way, with common management and control
+facilities.
+
+\item \textit{JVM based Runtime Environment:} The evaluation of
+ network topologies allowing hundreds or thousands of virtual
+ nodes (routing or compute), using
+ software written in Java. Each node resides in its own virtual
+ machine, and so is independent of and secure from all other virtual nodes.
+ The software execution environment, available on all nodes, allows the deployment of diverse network control components. Existing Java code can be quickly ported to run on our
+ software router (our experience is from two or three hours, to a few days for relatively
+ complicated software packages). Deployment of virtualized devices over heterogeneous hardware and software environments due to the very wide support of the JVM technology. 
+
+
+\end{description}

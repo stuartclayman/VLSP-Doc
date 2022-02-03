@@ -1,0 +1,252 @@
+The following table shows the  Java methods for the VimClient.
+There is a method for each of the REST API calls.  This allows for
+full operability using the Java VIM Client.
+
+The returned values are of type \texttt{JSONObject} and they contain
+the $Response$ values presented in Appendix \ref{chap:restapi}.
+
+\vspace{\baselineskip}
+
+\noindent Create a new router.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject createRouter()
+\end{lstlisting}
+
+\noindent Create a new router, passing in some parameters which
+are given to the PlacementEngine.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject createRouter(String parameters)
+\end{lstlisting}
+
+\noindent Create a new router, passing in its name and address.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject createRouter(String name, String address)
+\end{lstlisting}
+
+\noindent Create a new router, passing in its name and address,
+and  some parameters which are given to the PlacementEngine.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject createRouter(String name, String address, String parameters)
+\end{lstlisting}
+
+\noindent Create a new router, passing in its name.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject createRouterWithName(String name)
+\end{lstlisting}
+
+\noindent Create a new router, passing in an address.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject createRouterWithAddress(String address)
+\end{lstlisting}
+
+\noindent Delete a router, given its $id$.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject deleteRouter(int routerID)
+\end{lstlisting}
+
+\noindent  Get a list of all the routers.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject listRouters()
+\end{lstlisting}
+
+\noindent  Get a list of all the routers, passing in $detail$.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject listRouters(String detail)
+\end{lstlisting}
+
+\noindent   Get a list of all the routers which have been removed from
+the system.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject listRemovedRouters()
+\end{lstlisting}
+
+\noindent  Gets info on a router specified by $id$.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject getRouterInfo(int id)
+\end{lstlisting}
+
+\noindent Gets information on all the links of a router specified by $id$.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject getRouterLinkStats(int id)
+\end{lstlisting}
+
+\noindent Gets information on the link of a router specified by $id$,
+going to another router specified by $dstID$.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject getRouterLinkStats(int id, int dstID)
+\end{lstlisting}
+
+\noindent  This will get the current number of routers in the system.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject getRouterCount()
+\end{lstlisting}
+
+\noindent  This will get the maximum ID of a router in the system.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject getMaxRouterID()
+\end{lstlisting}
+
+\noindent  Create a link between 2 routers, specifying the $ids$ for
+both routers.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject createLink(int routerID1, int routerID2)
+\end{lstlisting}
+
+\noindent   Create a link between 2 routers, specifying the $ids$ for
+both routers and a link weight.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject createLink(int routerID1, int routerID2, int weight)
+\end{lstlisting}
+
+\noindent  Create a link between 2 routers, specifying the $ids$ for
+both routers, a link weight, and a link name.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject createLink(int routerID1, int routerID2, int weight, String linkName)
+\end{lstlisting}
+
+\noindent  Delete a link, given its $id$.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject deleteLink(int linkID)
+\end{lstlisting}
+
+\noindent  Get a list of all the links.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject listLinks()
+\end{lstlisting}
+
+\noindent  Get a list of all the links, passing in $detail$.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject listLinks(String detail)
+\end{lstlisting}
+
+\noindent  Gets info on a link specified by $id$.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject getLinkInfo(int id)
+\end{lstlisting}
+
+\noindent  Set the weight of a link specified by $id$.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject setLinkWeight(int linkID, int weight)
+\end{lstlisting}
+
+\noindent  This will get the current number of links in the system.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject getLinkCount()
+\end{lstlisting}
+
+\noindent  Get a list of all the links on a router specified by $rid$.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject listRouterLinks(int rid)
+\end{lstlisting}
+
+\noindent  Gets info on all links on router specified by $rid$ and
+$attr$. Values for attr are one of: [id $|$ name $|$ weight $|$ connected ].
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject listRouterLinks(int rid, String attr)
+\end{lstlisting}
+
+\noindent  Gets info on a specific link on a router specified by $rid$
+and $linkID$.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject getRouterLinkInfo(int rid, int linkID)
+\end{lstlisting}
+
+\noindent  Create a new Application running on router, specified by
+$rid$.  The class name of the app is $className$ and the args for the
+app are specified in $args$.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject createApp(int rid, String className, String args)
+\end{lstlisting}
+
+\noindent  Stop an app, specified by $appID$, on a router specified by $rid$.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject stopApp(int rid, int appID)
+\end{lstlisting}
+
+\noindent  List all apps on router $rid$.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject listApps(int rid)
+\end{lstlisting}
+
+\noindent  Get info for an app, specified by $appID$, on a router specified by $rid$.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject getAppInfo(int rid, int appID)
+\end{lstlisting}
+
+\noindent  List all aggregation points.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject listAggPoints()
+\end{lstlisting}
+
+\noindent  Get info on an aggregation point specified by $id$.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject getAggPointInfo(int id)
+\end{lstlisting}
+
+\noindent  Tell router $rid$ that it's aggregation point is router
+specified as $apID$.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject setAggPoint(int apID, int rid)
+\end{lstlisting}
+
+\noindent  Get a list of all the LocalControllers.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject listLocalControllers()
+\end{lstlisting}
+
+\noindent Get information on a LocalController given a $name$ which
+looks like host:port.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject getLocalControllerInfo(String name)
+\end{lstlisting}
+
+\noindent  Change the status of a LocalController given a $name$ which
+looks like host:port, to a new status. Values for status are: "online"
+or  "offline".
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject setLocalControllerStatus(String name, String status)
+\end{lstlisting}
+
+\noindent  Get info on a LocalController, specified by $name$.
+
+\begin{lstlisting}[language=Java]
+    $\rhd$ JSONObject getLocalControllerInfo(String name)
+\end{lstlisting}
+

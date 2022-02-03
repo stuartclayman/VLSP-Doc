@@ -1,0 +1,193 @@
+% This needs a few passes to layout correctly
+
+{
+  \renewcommand{\arraystretch}{1.6} 
+  \renewcommand{\tabcolsep}{1.1ex}
+
+
+\small
+
+% longtable lines
+\begin{longtable}{ | p{7.5cm} | p{6.5cm} | }
+
+\caption{Global Controller Configuration Options} \\
+  \hline \multicolumn{2}{| c |} {\textbf{Configuration Options}}\\
+  \hline  {\textbf{Field}} & {\textbf{Description}} \\
+\endhead
+
+
+
+
+\hline
+\footnotesize{\texttt{<SimOptions>} (required)} & The top level node for all
+configuration options to the Global Controller. \\
+\hline \hline
+
+% GlobalController
+
+\hline
+\footnotesize{\texttt{<GlobalController>} (optional)} &
+The node for specific options for  the Global Controller.  Only
+one such section is allowed.
+\\
+\hline
+\footnotesize{\texttt{<GlobalController> $\rightarrow$ <Simulation> (optional)}} &
+If true, the Global Controller simulates routers rather than starting
+them on local controllers.
+\newline
+Boolean, default is \texttt{false}. 
+ \\
+\hline
+\footnotesize{\texttt{<GlobalController> $\rightarrow$ <Port> (optional)}} &
+The port that the Global Controller should listen on. 
+\newline
+Integer value -- default is \texttt{8888}.
+\\
+
+\hline
+\footnotesize{\texttt{<GlobalController> $\rightarrow$ <StartLocalControllers> (optional)}} &
+Should the the Global Controller start any localcontrollers, if
+necessary. 
+\newline
+Boolean, default is \texttt{true}.  If false GC assumes local controllers
+started by hand.
+ \\
+
+\hline
+\footnotesize{\texttt{<GlobalController> $\rightarrow$ <ConnectedNetwork> (optional)}} &
+If true the GC will add a link to connect the network if it becomes
+disconnected.
+\newline
+Boolean, default is \texttt{false}.
+\\
+\hline
+\footnotesize{\texttt{<GlobalController> $\rightarrow$ <AllowIsolatedNodes> (optional)}} &
+If false the GC will reconnect a node which has no links.
+\newline
+Boolean, default is \texttt{true}.
+\\
+\hline
+\footnotesize{\texttt{<GlobalController> $\rightarrow$ <PlacementEngineClass> (optional)}} &
+The name of the class of the placement engine in the Global Controller. 
+\newline
+String, default is \texttt{usr.globalcontroller. LeastUsedLoadBalancer}.
+\\
+\hline
+\footnotesize{\texttt{<GlobalController> $\rightarrow$ <VisualizationClass> (optional)}} &
+The name of the class for Visualization in the Global Controller. 
+\newline
+String, there is no default.
+\\
+\hline
+\footnotesize{\texttt{<GlobalController> $\rightarrow$ <Monitoring> (optional)}} &
+Should the Global Controller start the Lattice monitoring
+framework on the routers. 
+\newline
+Boolean, default is \texttt{false}.
+\\
+\hline
+\footnotesize{\texttt{<GlobalController> $\rightarrow$ <RemoteLoginUser> (optional) }} &
+Provide a user name to create ssh tunnel when starting local
+controllers (can be overridden per controller)
+\newline
+String, no default.
+\\
+\hline
+\footnotesize{\texttt{<GlobalController> $\rightarrow$ <LowPort>} (optional)} &
+Lowest port to be used for listening by local controllers (can
+be overridden by individual controllers)
+\newline
+Integer, default is \texttt{10000}.
+\\
+\hline
+\footnotesize{\texttt{<GlobalController> $\rightarrow$ <HighPort> (optional)}} &
+Highest port to be used for listening by local controllers (can
+be overridden by individual controllers)
+\newline
+Integer, default is \texttt{20000}.
+\\
+\hline 
+\hline
+
+% LocalControllers
+
+\hline 
+\footnotesize{\texttt{<LocalController> (optional)}} &
+The node for specific options for  the Local Controller. 
+One such section should be present for every physical
+machine in the test bed.  (For simulation there should be none.)\\
+
+\hline
+\footnotesize{\texttt{<LocalController> $\rightarrow$ <Name> (compulsory)}} &
+The name of the host that the Local Controller should run on. \newline
+String (no default)
+\\
+
+\hline
+\footnotesize{\texttt{<LocalController> $\rightarrow$ <Port> (compulsory)}} &
+The port that the Local Controller should listen on. \newline
+Integer (no default)
+\\
+\hline
+\footnotesize{\texttt{<LocalController> $\rightarrow$ <LowPort> (optional)}} &
+The lowest port number that the Local Controller should start a Router
+listening on. \newline
+Integer (default inherited from GlobalController)
+\\
+
+\hline
+\footnotesize{\texttt{<LocalController> $\rightarrow$ <HighPort> (optional)}} &
+The highest port number that the Local Controller should start a Router
+listening on. \newline
+Integer (default inherited from GlobalController) \\
+
+\hline
+\footnotesize{\texttt{<LocalController> $\rightarrow$ <MaxRouters>}} &
+The maximum number of Routers that a Local Controller should start 
+on the host. \newline
+Integer (default 100) \\
+
+\hline
+\footnotesize{\texttt{<LocalController> $\rightarrow$ <RemoteLoginUser>}} &
+The username used to login to this controller via ssh to start LocalController \newline
+String (no default -- use current user as default) but can be inherited from GC \\
+\hline
+\footnotesize{\texttt{<LocalController> $\rightarrow$ <RemoteStartController>}} &
+Command string used to start LocalController on machine \newline
+String (no default but see below) \newline
+if not set use \texttt{java -cp [Classpath from environment] usr.localcontroller.LocalController}\\
+\hline 
+\hline
+
+% EventEngine
+
+\hline
+\footnotesize{\texttt{<EventEngine>}} &
+The node for specific options for  the Event engine. \\
+
+\hline 
+\footnotesize{\texttt{<EventEngine> $\rightarrow$ <Name>}} &
+The name of the probability distribution function. \\
+\hline
+\hline
+
+% Routeroptions
+
+\hline
+\footnotesize{\texttt{<RouterOptions>}} &
+The node for specific options for  the routers. \\
+\hline \hline
+
+% Output
+
+\hline
+\footnotesize{\texttt{<Output>}} &
+The node for specific options for  generating output from a run. \\
+\hline
+
+\end{longtable}
+
+
+\normalsize
+
+}

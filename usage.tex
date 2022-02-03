@@ -1,0 +1,648 @@
+
+In this section the usage of the platform is described.  We show how
+to start up the platform and how to configure different runs.
+
+Remember that there are 3 main components of the platform:
+
+\begin{itemize}
+\item the Global Controller
+\item Local Controllers
+\item Routers
+\end{itemize}
+
+\noindent Within a run, there will be one Global Controller, which controls the
+run, a Local Controller on each physical machine that participates,
+and a set of Routers that run on the physical machines.
+
+To start the whole VLSP system, we execute the \emph{Global Controller} and pass in an \textsc{xml} file which has the configuration options
+for each particular run, specifying
+ a Java class
+called:  \lstinline[language=Java]$usr.globalcontroller.GlobalController$.
+The options include information such as the
+ports to listen on; the hosts that the \emph{Host Controller} is to execute
+on and its associated ports; its monitoring elements; the placement engine to use; and other
+virtual entity options.  When the \emph{Global
+Controller} starts it attempts to setup all of the monitoring elements
+and start all of the \emph{Host Controllers} on
+the specified hosts, this  is a Java class
+called:  \lstinline[language=Java]$usr.localcontroller.LocalController$.  Once
+this has been achieved the VLSP system is ready for experiments.
+
+The interface between all the VLSP components uses \textsc{http}.
+All communicated information is transmitted using
+\textsc{rest} and \textsc{json} descriptions. To maintain the
+lightness of the system we use the \texttt{monoid Resty} jar library,
+which is only 120K.  This compares to the commonly used, but fully
+featured, Jersey library which is 1.5Mb.
+
+The start up and shutdown of virtual routers is managed by the \emph{Global
+Controller} but is performed by the \emph{Host Controller} which
+resides on each host after receiving \textsc{rest} calls.
+The \emph{Host Controller} is also
+used to control
+the connection of virtual routers with virtual links.
+The \emph{Host Controller}  behaves in the same way a hypervisor does
+in other virtualised environments, and it also passes on \emph{Global
+Controller} commands to Routers.
+A virtual entity will be started on the same physical machine as the
+\emph{Host Controller}.
+
+
+
+
+\subsection{Pre-Configuration}
+
+As the platform is
+written in Java, we need to set the JAVA\_HOME and the CLASSPATH
+environment variables.
+
+\code{\% export JAVA\_HOME=/usr/java/jdk1.8/}
+
+\noindent To start the run of the platform, either set the current directory
+to be where the platform is installed and the relevant environment variables
+need to be set before everything is started:
+
+\code{\% cd /install\_place}
+
+\code{\% export CLASSPATH=.:./libs/*:}
+
+\noindent or set the install\_place in the classpath:
+
+\code{\% export CLASSPATH=/install\_place:/install\_place/libs/*:}
+
+\subsection{Starting}
+
+The Global Controller is started and passed an XML
+configuration control file -- the path to the configuration file can
+be relative or absolute. 
+
+\code{\% java usr.globalcontroller.GlobalController control-config.xml}
+
+\noindent or:
+
+\code{\% java usr.vim.Vim control-config.xml}
+
+\noindent This will start the Global Controller on the local host.
+The class \texttt{usr.vim.Vim} is a subclass of the GlobalController,
+with identical functionality.
+
+It with automatically start the Local Controllers and the Routers in the
+relevant places.  The links between the Routers will be created, under
+the control of the Global Controller, based on the configuration file.
+
+
+
+\subsection{Configuration for Controlled Setups}
+
+The Controlled Setups start with only a GlobalController and
+LocalControllers, and they wait for external control via the REST API
+to configure the virtual topology.
+The following is a configuration, which has 4 main sections:
+
+\begin{itemize}
+\item GlobalController -- with configuration options for the GlobalController itself
+\item LocalController -- with configuration details for LocalControllers
+\item EventEngine -- setup for an EventEngine
+\item RouterOptions -- with configuration for the virtual Routers
+\end{itemize}
+
+\noindent This configuration starts the Global
+Controller on port 8888 of the local host,
+with a placement engine of class \texttt{usr.globalcontroller.LeastUsedLoadBalancer}.
+The Lattice monitoring is configured with 5 different data consumers.
+The Global Controller starts
+ Local Controllers on 3 other hosts: host1, host2, and host3.
+The Local Controllers will listen on
+port 10000 of each host.
+
+The configuration for the routers is held in the file
+\texttt{scripts/routeroptions.xml}.
+
+
+
+
+\noindent All of the configuration options can be found in section
+\ref{globalcontroller:config}.
+
+
+\needspace{5\baselineskip}
+
+\begin{lstlisting}[language=config, caption=control-wait-config.xml]
+<SimOptions>
+  <GlobalController>
+     <Port>8888</Port>
+     <StartLocalControllers>true</StartLocalControllers>
+
+     <PlacementEngineClass>usr.globalcontroller.LeastUsedLoadBalancer</PlacementEngineClass>
+     <Monitoring>
+       <LatticeMonitoring>true</LatticeMonitoring>
+       <MonitoringPort>7799</MonitoringPort>
+
+       <Consumer> 
+         <Name>usr.globalcontroller.HostInfoReporter</Name>
+       </Consumer>
+       <Consumer>
+         <Name>usr.globalcontroller.NetIFStatsReporter</Name>
+       </Consumer>
+       <Consumer>
+         <Name>usr.globalcontroller.RouterAppsReporter</Name>
+       </Consumer>
+       <Consumer>
+         <Name>usr.globalcontroller.ThreadGroupListReporter</Name>
+       </Consumer>
+       <Consumer>
+         <Name>usr.globalcontroller.ThreadListReporter</Name>
+       </Consumer>
+     </Monitoring>
+  </GlobalController>
+
+  <LocalController>
+     <Name>host1</Name>
+     <Port>10000</Port>
+     <LowPort>11001</LowPort>
+     <HighPort>12000</HighPort>
+     <MaxRouters>100</MaxRouters>
+  </LocalController>
+
+  <LocalController>
+     <Name>host2</Name>
+     <Port>10000</Port>
+     <LowPort>12001</LowPort>
+     <HighPort>13000</HighPort>
+     <MaxRouters>100</MaxRouters>
+  </LocalController>
+
+  <LocalController>
+     <Name>host3</Name>
+     <Port>10000</Port>
+     <LowPort>13001</LowPort>
+     <HighPort>14000</HighPort>
+     <MaxRouters>100</MaxRouters>
+  </LocalController>
+
+  <EventEngine>
+     <Name>Empty</Name>
+     <EndTime>86400</EndTime> 
+  </EventEngine>
+
+  <RouterOptions>
+      scripts/routeroptions.xml
+  </RouterOptions>
+
+</SimOptions>
+
+\end{lstlisting}
+
+
+\noindent  In the above configuration for \texttt{GlobalController}
+the following options have been set:
+
+{
+\small
+
+\begin{longtable}{ | p{3.4cm} | p{3.1cm} | p{7.3cm} | }
+
+\hline
+\textbf{Option} & \textbf{Value} & \textbf{Description} \\
+\hline
+Port & 8888 & The GlobalController will listen for REST API commands
+on port 8888. \\
+\hline
+StartLocalControllers & true & The GlobalController should start
+LocalControllers if they are not already running. \\
+\hline
+PlacementEngineClass & usr.globalcontroller. LeastUsedLoadBalancer &
+The name of the class for the Placement Engine. \\
+\hline
+Monitoring & More config options & If required, the details for
+Monitoring. \\
+\hline
+$\rightarrow$ LatticeMonitoring & true & Should the GlobalController start the Lattice
+Monitoring sub-system. \\
+\hline
+$\rightarrow$ MonitoringPort & 7799 & The Lattice Monitoring sub-system will listen
+on port 7799 for monitoring data. \\
+\hline
+$\rightarrow$ Consumer & usr.globalcontroller. HostInfoReporter & A monitoring
+consumer that collects data from LocalControllers. \\
+\hline
+$\rightarrow$ Consumer & ... & Other monitoring consumers. \\
+\hline
+
+\end{longtable}
+
+\normalsize
+}
+
+Now we present the configuration for \texttt{LocalController}
+blocks.  A GlobalController needs one or more LocalController definitions.
+In the above example, there are 3 LocalController definitions, with
+the following  options having been set: 
+
+{
+\small
+
+\begin{longtable}{ | p{3.4cm} | p{3.1cm} | p{7.3cm} | }
+
+\hline
+\textbf{Option} & \textbf{Value} & \textbf{Description} \\
+\hline
+Name & host1 & The name of the host that the LocalController should be
+started on. \\
+\hline
+Port & 10000 & The LocalController will listen 
+on port 10000 for commands from the GlobalController. \\
+\hline
+LowPort & 11001 & The LocalController will start a virtual router,
+with the router management port in a range, with this the low end. \\
+\hline
+Highort & 12000 & The LocalController will start a virtual router,
+with the router management port in a range, with this the high end. \\
+\hline
+MaxRouters & 100 & The maximum number of virtual routers to start in
+this host. \\
+\hline
+
+\end{longtable}
+
+\normalsize
+}
+  
+
+\noindent Now we present the configuration for \texttt{EventEngine}
+block. The setup for externally controlled configurations
+has the following  options set: 
+
+{
+\small
+
+\begin{longtable}{ | p{3.4cm} | p{3.1cm} | p{7.3cm} | }
+
+\hline
+\textbf{Option} & \textbf{Value} & \textbf{Description} \\
+\hline
+Name & Empty & The EventEngine to execute. Empty means there is no
+events being generated. \\
+\hline
+EndTime & 86400 & The amount of time the system will run -- even if
+there are no events being created.  In this case it is \emph{86400
+  seconds}, which is \emph{1440 minutes}, or \emph{24 hours}. \\
+\hline
+
+
+\end{longtable}
+
+\normalsize
+}
+  
+\noindent Now we present the configuration for \texttt{RouterOptions}
+block. This always has the name of another configuration file which
+contains the actual router options. In this case it is the file:
+\texttt{scripts/routeroptions.xml}.
+We will now look at the router configuration file: routeroptions.xml.
+
+\needspace{5\baselineskip}
+
+\begin{lstlisting}[language=config, caption=routeroptions.xml]
+
+<RouterOptions>
+    <Monitoring>
+      <LatticeMonitoring>true</LatticeMonitoring>
+      <Probe>
+        <Name>usr.router.NetIFStatsProbe</Name>
+        <Rate>1000</Rate>
+      </Probe>
+      <Probe>
+        <Name>usr.router.ThreadListProbe</Name>
+        <Rate>1000</Rate>
+      </Probe>
+      <Probe>
+        <Name>usr.router.ThreadGroupListProbe</Name>
+        <Rate>5000</Rate>
+      </Probe>
+      <Probe>
+        <Name>usr.router.AppListProbe</Name>
+        <Rate>5000</Rate>
+      </Probe>
+    </Monitoring>
+
+    <APManager>
+        <Name>None</Name>
+    </APManager> 
+
+</RouterOptions>
+
+
+\end{lstlisting}
+
+\noindent  In the above configuration for \texttt{RouterOptions}
+the following options have been set:
+
+{
+\small
+
+\begin{longtable}{ | p{3.4cm} | p{3.1cm} | p{7.3cm} | }
+
+\hline
+\textbf{Option} & \textbf{Value} & \textbf{Description} \\
+\hline
+Monitoring & More config options & If required, the details for
+Monitoring. \\
+\hline
+$\rightarrow$ LatticeMonitoring & true & Should the Router start the Lattice
+monitoring and send data from the defined probes. \\
+\hline
+$\rightarrow$ Probe & usr.router. NetIFStatsProbe & A monitoring
+probe that collects \emph{Network Interface} packets data from a Router . \\
+\hline
+$\rightarrow$ Probe & ... & Other monitoring probes. \\
+\hline
+APManager & More config options & If required, the details for
+an Aggregation Point Manager. \\
+\hline
+ $\rightarrow$  Name & None & This setup does not use Aggregation Points.
+\\
+\hline
+\end{longtable}
+
+\normalsize
+}
+
+
+
+\subsection{Configuration for Probabilistic Setups}
+
+This setup is configured to use a single host, with the
+GlobalController and the LocalController both residing on the localhost.
+The following is a minimal configuration, which has 4 main sections:
+
+\begin{itemize}
+\item GlobalController which defines values for the Global Controller
+\item LocalController which defines values for Local Controllers
+\item EventEngine which defines values for an event engine
+  that drives the creation of routers and links 
+\item RouterOptions which defines values for the routers.
+\end{itemize}
+
+\noindent This configuration starts the Global
+Controller on port 8888 of the local host, and that it should start
+a Local Controller.
+The Local Controller will be on
+port 10000 of the local host.
+It also tells the LocalController to allocate Routers which listen on
+a range of ports, between port 11001 and 12000, and that there should
+be a maximum of 50 routers on localhost.
+
+The EventEngine section configures the Probabilistic engine to
+generate new Router and Connection requests.  The engine will execute
+for 600 seconds, and will get the probability distribution information
+from the file \texttt{probdists.xml}.
+
+Finally, the configuration for the routers is held in the file \texttt{routeroptions.xml}.
+
+\needspace{5\baselineskip}
+
+\begin{lstlisting}[language=config, caption=control-probabalistic-config.xml]
+<SimOptions>
+
+  <GlobalController>
+     <Port>8888</Port>
+     <StartLocalControllers>true</StartLocalControllers>
+     <ConnectedNetwork>true</ConnectedNetwork>
+  </GlobalController>
+
+  <LocalController>
+     <Name>localhost</Name>
+     <Port>10000</Port>
+     <LowPort>11001</LowPort>
+     <HighPort>12000</HighPort>
+     <MaxRouters>50</MaxRouters>
+  </LocalController>
+
+  <EventEngine>
+     <Name>Probabilistic</Name>
+     <EndTime>600</EndTime>
+     <Parameters>probdists.xml</Parameters>
+  </EventEngine>
+
+  <RouterOptions>
+      routeroptions.xml
+  </RouterOptions>
+
+</SimOptions>
+\end{lstlisting}
+
+\noindent The options set for the configuration of the
+\texttt{GlobalController} and the \texttt{LocalController} are as
+described earlier.
+But we present the configuration for \texttt{EventEngine}
+block, as this is different here.
+
+%\needspace{5\baselineskip}
+
+{
+\small
+
+\begin{longtable}{ | p{3.4cm} | p{3.1cm} | p{7.3cm} | }
+
+\hline
+\textbf{Option} & \textbf{Value} & \textbf{Description} \\
+\hline
+Name & Probabilistic & The EventEngine is the Probabilistic event
+engine which generates events in a probabilistic manner. \\
+\hline
+EndTime & 600 & The amount of time the system will run -- even if
+there are no events being created.  In this case it is \emph{600
+  seconds}, which is \emph{10 minutes}. \\
+\hline
+Parameters & probdists.xml & The name of the file to get the
+probability functions and coefficients for the probabilistic event engine. \\
+\hline
+
+
+\end{longtable}
+
+\normalsize
+}
+
+
+\noindent The probabilistic event engine is defined in the class
+\texttt{usr.engine.ProbabilisticEventEngine}.  It expects extra
+probability distribution configuration to be defined. For this example
+the following is defined:
+
+\needspace{5\baselineskip}
+
+\begin{lstlisting}[language=config, caption=probdists.xml]
+<ProbabilisticEngine>
+      <NodeBirthDist>
+            <ProbElement>
+                 <Type>Exponential</Type>
+                 <Weight>1.0</Weight>
+                 <Parameter>3.0</Parameter>
+            </ProbElement>
+      </NodeBirthDist>
+
+      <NodeDeathDist>
+            <ProbElement>
+                 <Type>Exponential</Type>
+                 <Weight>0.7</Weight>
+                 <Parameter>60</Parameter>
+            </ProbElement>
+            <ProbElement>
+                 <Type>LogNormal</Type>
+                 <Weight>1.0</Weight>
+                 <Parameter>7.0</Parameter>
+                 <Parameter>1.5</Parameter>
+            </ProbElement>
+      </NodeDeathDist>
+
+      <LinkCreateDist>
+            <ProbElement>
+                 <Type>PoissonPlus</Type>
+                 <Weight>1.0</Weight>
+                 <Parameter>1.5</Parameter>
+                 <Parameter>1.0</Parameter>
+            </ProbElement>
+      </LinkCreateDist>
+
+      <Parameters>
+          <PreferentialAttachment>true</PreferentialAttachment>
+      </Parameters>
+</ProbabilisticEngine>
+\end{lstlisting}
+
+
+\noindent Here we present the configuration for \texttt{ProbabilisticEngine}
+block.
+
+%\needspace{5\baselineskip}
+
+{
+\small
+
+\begin{longtable}{ | p{3.4cm} | p{3.1cm} | p{7.3cm} | }
+
+\hline
+\textbf{Option} & \textbf{Value} & \textbf{Description} \\
+\hline
+NodeBirthDist &  & Options for the probabilistic creation of new
+virtual routers. \\
+\hline
+NodeDeathDist &  & Options for the probabilistic lifetime of a
+virtual router. \\
+\hline
+LinkCreateDist &  & Options for the probabilistic creation of new
+virtual links. \\
+\hline
+$\rightarrow$ ProbElement & & The specification for this probability
+distribution.\\
+\hline
+$\rightarrow$ Type & Exponential & Use the Exponential distribution. \\
+\hline
+$\rightarrow$ Weight & 1.0 & A weight for thr distribution. \\
+\hline
+$\rightarrow$ Parameter & 3.0 & A coefficient parameter for thr distribution. \\
+\hline
+Parameters &  &  Optional extra parameters. \\
+\hline
+$\rightarrow$ PreferentialAttachment & true & Use a preferential
+attachment strategy when adding new links. \\
+\hline
+\end{longtable}
+
+\normalsize
+}
+
+
+\noindent The values for the $Type$ of probability distribution are:
+\texttt{Exponential}, 
+\texttt{LogNormal},
+\texttt{PoissonPlus}, and
+\texttt{Uniform}.
+
+We will now look at the router configuration.
+
+
+\needspace{5\baselineskip}
+
+\begin{lstlisting}[language=config, caption=routeroptions-with-ap.xml]
+<RouterOptions>
+
+    <APManager>
+        <Name>Pressure</Name>
+        <MaxAPs>100</MaxAPs>
+        <MinAPs>1</MinAPs>
+        <MaxAPWeight>5</MaxAPWeight>
+        <MinPropAP>0.1</MinPropAP>
+    </APManager> 
+
+</RouterOptions>
+\end{lstlisting}
+
+\noindent Here we present the configuration for \texttt{RouterOptions}
+block.
+
+%\needspace{5\baselineskip}
+
+{
+\small
+
+\begin{longtable}{ | p{3.4cm} | p{3.1cm} | p{7.3cm} | }
+
+\hline
+\textbf{Option} & \textbf{Value} & \textbf{Description} \\
+\hline
+APManager & More config options & If required, the details for
+an Aggregation Point Manager. \\
+\hline
+ $\rightarrow$  Name & Pressure & This setup uses the Pressure
+Aggregation Point algorithm. \\
+\hline
+ $\rightarrow$  MaxAPs & 100 & The maximum number of APs in the network. \\
+\hline
+ $\rightarrow$  MinAPs & 1  & The minimum number of APs in the network.  \\
+\hline
+ $\rightarrow$  MaxAPWeight & 5 &  \\
+\hline
+ $\rightarrow$  MinPropAP &  0.1 &  \\
+\hline
+
+
+\end{longtable}
+
+\normalsize
+}
+
+\noindent The values for the $Name$ of the Aggregation Point Manager strategy are:
+\texttt{Pressure}, 
+\texttt{Random},
+\texttt{HotSpot}, and
+\texttt{None}.
+
+%%\subsubsection{Execution of Probabilistic Setups}
+
+%%\textit{TODO}
+
+\subsection{Stopping}
+
+The Global Controller will keep running for the number of seconds
+defined in $EventEngine \rightarrow EndTime$ specification.
+In the Configuration for Controlled Setup example it was set to 86400
+seconds, and in the Probabilistic Setup example it was set to 600
+seconds.
+Once the specified time has elapsed the GlobalController will go into
+its shutdown phase and will
+automatically stop all app, remove all virtual links, terminate all
+virtual routers,  and stop all LocalControllers.
+
+It is possible to stop the GlobalController under software control by
+sending a special command via the REST API.
+This call acts the same way as the time elapsing and will go into the
+shutdown phase.
+
+
+\begin{verbatim}
+GET http://host:8888/command/SHUT_DOWN
+\end{verbatim}
+

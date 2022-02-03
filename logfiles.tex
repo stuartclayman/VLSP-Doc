@@ -1,0 +1,240 @@
+VLSP produces some log files as it executes.
+These are presented here.
+
+
+{
+\small
+
+\begin{longtable}{ | p{4.7cm} | p{9.5cm} | }
+
+\hline
+\textbf{File} & \textbf{Description} \\
+\hline
+
+/tmp/gc-channel7.out & This file shows a regualar output of the
+network interface statistics for each router. It is modelled on
+$netstat -i$. \\
+\hline
+/tmp/gc-channel8.out & This file shows the management commands for the
+Aggregation Point, if it is configured.\\
+\hline
+/tmp/gc-channel9.out & This file shows the main commands for the
+virtual network. \\
+\hline
+/tmp/gc-channel10.out & The file has a list of the current running
+apps on each Router.  It is similar to $ps$.\\
+\hline
+/tmp/gc-channel11.out & This file has an overview of monitoring data
+arriving. It shows the type of the measurement, the probe ID of the
+sending probe, plus the sequence number. \\
+\hline
+/tmp/gc-channel12.out & This file shows the decisions made by the
+Placement Engine.\\
+\hline
+/tmp/gc-channel13.out & This file shows the data from the HostInfo
+probe, if it is configured.\\
+\hline
+/tmp/gc-channel14.out & This file has the data for each Router,
+showing CPU usage for each Thread Group, if it is configured.\\
+\hline
+/tmp/gc-channel15.out & This file has the data for each Router,
+showing CPU usage for each Thread, if it is configured.\\
+\hline
+/tmp/Router-$id$-channel6.out & \\
+\hline
+
+\end{longtable}
+
+\normalsize
+}
+
+\subsubsection*{channel7}
+
+\begin{lstlisting}[language=config]
+00:53:31 Router-1 localnet | 624 | 3 | 0 | 0 | 624 | 3 | 1040 | 5 | 0 | 0 | 1040 | 5 | 0 | 1 | 0 | 0 | 
+00:53:31 Router-2 Router-1.Connection-0 | 623 | 5 | 0 | 0 | 416 | 2 | 207 | 3 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 1 | 
+00:53:31 Router-3 Router-1.Connection-1 | 146 | 2 | 0 | 0 | 0 | 0 | 146 | 2 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 1 | 
+00:53:31 Router-4 Router-1.Connection-2 | 138 | 2 | 0 | 0 | 0 | 0 | 77 | 1 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 1 | 
+
+\end{lstlisting}
+
+
+\subsubsection*{channel8}
+
+\begin{lstlisting}[language=config]
+00:21:05 ROUTER 1 BECOME AP 
+00:21:05 ROUTER 2 SET AP 1 
+00:30:00 ROUTER 3 SET AP 1 
+00:50:00 ROUTER 4 SET AP 1 
+01:00:00 ROUTER 5 SET AP 1 
+01:10:00 ROUTER 6 SET AP 1 
+01:20:00 ROUTER 7 SET AP 1 
+01:30:87 ROUTER 8 SET AP 1 
+01:40:60 ROUTER 2 BECOME AP 
+01:40:60 ROUTER 3 SET AP 2 
+01:40:60 ROUTER 7 SET AP 2 
+01:40:60 ROUTER 8 SET AP 2 
+01:40:60 ROUTER 9 SET AP 2 
+\end{lstlisting}
+
+
+\subsubsection*{channel9}
+
+\begin{lstlisting}[language=config]
+00:12:18 START ROUTER 1
+00:20:88 START ROUTER 2
+00:21:05 CREATE LINK 1 TO 2
+00:29:15 START ROUTER 3
+00:29:31 CREATE LINK 2 TO 3
+00:29:44 CREATE LINK 1 TO 3
+00:42:93 START ROUTER 4
+00:43:06 CREATE LINK 1 TO 4
+00:43:19 CREATE LINK 2 TO 4
+00:43:34 CREATE LINK 3 TO 4
+00:54:49 START ROUTER 5
+00:54:65 CREATE LINK 4 TO 5
+00:54:78 CREATE LINK 2 TO 5
+00:54:90 CREATE LINK 1 TO 5
+00:55:02 CREATE LINK 3 TO 5
+01:02:92 REMOVE LINK 4 TO 5
+01:02:92 REMOVE LINK 4 TO 3
+01:02:92 REMOVE LINK 4 TO 2
+01:02:92 REMOVE LINK 4 TO 1
+01:02:92 STOP ROUTER 4
+01:07:23 START ROUTER 6
+\end{lstlisting}
+
+
+
+\subsubsection*{channel10}
+
+\begin{lstlisting}[language=config]
+Router-1:
+00:21:22 AID | StartTime | ElapsedTime | RunTime | UserTime | SysTime | State | ClassName | Args | Name | RuntimeKeys | RuntimeValues | 
+00:21:22 2 | 1519134637453 | 6 | 223000 | 103000 | 120000 | RUNNING | plugins_usr.aggregator.appl.InfoSource | [-o, 1/3000, -t, 1, -d, 30, -p, rt, -n, info-source-1] | /Router-1/App/plugins_usr.aggregator.appl.InfoSource/2 | [] | [] | 
+00:21:22 1 | 1519134637318 | 141 | 254000 | 152000 | 102000 | RUNNING | plugins_usr.aggregator.appl.AggPoint | [-i, 0/3000, -t, 5, -a, average, -n, agg-point-1-1] | /Router-1/App/plugins_usr.aggregator.appl.AggPoint/1 | [] | [] | 
+\end{lstlisting}
+
+\subsubsection*{channel11}
+
+\begin{lstlisting}[language=config]
+< HostInfo.033bd4e6-ffc5-4adc-bc93-ea985b932520.0
+< HostInfo.033bd4e6-ffc5-4adc-bc93-ea985b932520.1
+< NetIFStats.b3435bfc-2620-4da9-a096-7996cfd8345e.0
+< ThreadGroupList.89fcc524-a7cd-4828-984d-9c1d2b214b9e.0
+< ThreadList.eedf60ee-84d2-4909-9a38-030cb760e891.0
+< NetIFStats.b3435bfc-2620-4da9-a096-7996cfd8345e.1
+< ThreadList.eedf60ee-84d2-4909-9a38-030cb760e891.1
+< NetIFStats.b3435bfc-2620-4da9-a096-7996cfd8345e.2
+< ThreadList.eedf60ee-84d2-4909-9a38-030cb760e891.2
+< NetIFStats.b3435bfc-2620-4da9-a096-7996cfd8345e.3
+< ThreadList.eedf60ee-84d2-4909-9a38-030cb760e891.3
+\end{lstlisting}
+
+\subsubsection*{channel12}
+
+\begin{lstlisting}[language=config]
+00:10:96 LeastUsedLoadBalancer: choose localhost:10000 minUse: 0.0 for Router-1/1
+00:19:69 LeastUsedLoadBalancer: choose localhost:10000 minUse: 0.0125 for Router-2/2
+00:27:95 LeastUsedLoadBalancer: choose localhost:10000 minUse: 0.025 for Router-3/3
+00:41:74 LeastUsedLoadBalancer: choose localhost:10000 minUse: 0.0375 for Router-4/4
+00:53:31 LeastUsedLoadBalancer: choose localhost:10000 minUse: 0.05 for Router-5/5
+01:06:04 LeastUsedLoadBalancer: choose localhost:10000 minUse: 0.05 for Router-6/6
+01:14:90 LeastUsedLoadBalancer: choose localhost:10000 minUse: 0.05 for Router-7/7
+01:26:84 LeastUsedLoadBalancer: choose localhost:10000 minUse: 0.0625 for Router-8/8
+01:39:14 LeastUsedLoadBalancer: choose localhost:10000 minUse: 0.05 for Router-9/9
+01:47:78 LeastUsedLoadBalancer: choose localhost:10000 minUse: 0.0625 for Router-10/10
+\end{lstlisting}
+
+\subsubsection*{channel13}
+
+\begin{lstlisting}[language=config]
+Name: localhost:10000 cpu-user: 2.33 cpu-sys: 11.67 cpu-idle: 85.99 load-average: 2.37 mem-used: 4224 mem-free: 684 mem-total: 4908 net-stats: [<0: if-name: STRING>, <1: in-packets: LONG>, <2: in-bytes: LONG>, <3: out-packets: LONG>, <4: out-bytes: LONG>]
+[(STRING en0), (LONG 10243227), (LONG 6705175607), (LONG 11143166), (LONG 5038734889)]
+[(STRING awdl0), (LONG 2), (LONG 170), (LONG 827), (LONG 327579)]
+ 
+Name: localhost:10000 cpu-user: 6.52 cpu-sys: 13.4 cpu-idle: 80.43 load-average: 2.5 mem-used: 4227 mem-free: 606 mem-total: 4833 net-stats: [<0: if-name: STRING>, <1: in-packets: LONG>, <2: in-bytes: LONG>, <3: out-packets: LONG>, <4: out-bytes: LONG>]
+[(STRING en0), (LONG 10243255), (LONG 6705182119), (LONG 11143180), (LONG 5038736649)]
+[(STRING awdl0), (LONG 2), (LONG 170), (LONG 827), (LONG 327579)]
+ \end{lstlisting}
+
+\subsubsection*{channel14}
+
+\begin{lstlisting}[language=config]
+Router-1 -- Router-1 --  starttime: [2018/02/20 13:50:27.362] elapsed: [51.126] cpu: [0.701674] user: [0.611783] system: [0.089891] mem: 25412536
+Router-1 -- localnet --  starttime: [2018/02/20 13:50:27.491] elapsed: [50.997] cpu: [0.001551] user: [0.001147] system: [0.000404] mem: 3320
+Router-1 -- TCPNetIF-11003 --  starttime: [2018/02/20 13:50:37.172] elapsed: [41.316] cpu: [0.009690] user: [0.007773] system: [0.001917] mem: 137464
+Router-1 -- Application-0 --  starttime: [2018/02/20 13:50:37.390] elapsed: [41.098] cpu: [0.000254] user: [0.000152] system: [0.000102] mem: 1368
+Router-1 -- Application-1 --  starttime: [2018/02/20 13:50:37.467] elapsed: [41.021] cpu: [0.000530] user: [0.000330] system: [0.000200] mem: 2032
+Router-1 -- TCPNetIF-11005 --  starttime: [2018/02/20 13:50:45.571] elapsed: [32.917] cpu: [0.008427] user: [0.006964] system: [0.001463] mem: 109632
+Router-1 -- TCPNetIF-11007 --  starttime: [2018/02/20 13:50:59.190] elapsed: [19.298] cpu: [0.002350] user: [0.001821] system: [0.000529] mem: 91800
+Router-1 -- TCPNetIF-11009 --  starttime: [2018/02/20 13:51:11.036] elapsed: [7.452] cpu: [0.001648] user: [0.001196] system: [0.000452] mem: 63528
+Router-1 -- TOTALS --  starttime: [2018/02/20 13:50:27.362] elapsed: [51.126] cpu: [0.726124] user: [0.631166] system: [0.094958] mem: 25818
+\end{lstlisting}
+
+\subsubsection*{channel15}
+
+\begin{lstlisting}[language=config]
+Router-1 -- /Router-1/RoutingTableTransmitter/587938662 - Router-1 --  starttime: [2018/02/20 13:50:27.434] elapsed: [44.205] cpu: [0.009569] user: [0.008248] system: [0.001321] mem: 209976
+Router-1 -- /Router-1/RouterController/940146249 - Router-1 --  starttime: [2018/02/20 13:50:27.434] elapsed: [44.205] cpu: [0.000072] user: [0.000028] system: [0.000044] mem: 0
+Router-1 -- /Router-1/RouterConnections/779731315 - Router-1 --  starttime: [2018/02/20 13:50:27.452] elapsed: [44.187] cpu: [0.005425] user: [0.004781] system: [0.000644] mem: 134176
+Router-1 -- FileManager-0 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.000090] user: [0.000037] system: [0.000053] mem: 0
+Router-1 -- ActionDistributor-0 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.004524] user: [0.003782] system: [0.000742] mem: 12256
+Router-1 -- LeaseCleaner-0 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.000486] user: [0.000376] system: [0.000110] mem: 5440
+Router-1 -- ActionDistributor-1 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.000748] user: [0.000495] system: [0.000253] mem: 728
+Router-1 -- ActionDistributor-2 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.061469] user: [0.058378] system: [0.003091] mem: 1813424
+Router-1 -- Notifier-0 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.016647] user: [0.015788] system: [0.000859] mem: 992136
+Router-1 -- Reader-0 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.012417] user: [0.011085] system: [0.001332] mem: 530160
+Router-1 -- Dispatcher-0 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.026552] user: [0.023705] system: [0.002847] mem: 1135248
+Router-1 -- Reader-1 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.000711] user: [0.000540] system: [0.000171] mem: 9240
+Router-1 -- Reader-2 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.003765] user: [0.003381] system: [0.000384] mem: 26464
+Router-1 -- Dispatcher-1 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.057997] user: [0.052258] system: [0.005739] mem: 1559864
+Router-1 -- Reader-3 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.000514] user: [0.000301] system: [0.000213] mem: 4760
+Router-1 -- Reader-4 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.001097] user: [0.000875] system: [0.000222] mem: 13664
+Router-1 -- Dispatcher-2 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.000828] user: [0.000721] system: [0.000107] mem: 40160
+Router-1 -- Reader-5 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.000466] user: [0.000274] system: [0.000192] mem: 4744
+Router-1 -- Reader-6 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.001153] user: [0.000909] system: [0.000244] mem: 13592
+Router-1 -- Dispatcher-3 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.001898] user: [0.001748] system: [0.000150] mem: 87792
+Router-1 -- Reader-7 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.000645] user: [0.000493] system: [0.000152] mem: 7408
+Router-1 -- Dispatcher-4 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.013667] user: [0.011445] system: [0.002222] mem: 310992
+Router-1 -- Router-1.probe.NetIFStats - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.020871] user: [0.017778] system: [0.003093] mem: 404288
+Router-1 -- Router-1.probe.ThreadGroupList - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.015644] user: [0.012141] system: [0.003503] mem: 500088
+Router-1 -- Router-1.probe.AppList - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.016773] user: [0.013642] system: [0.003131] mem: 297576
+Router-1 -- Router-1.probe.ThreadList - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.066873] user: [0.051732] system: [0.015141] mem: 3126560
+Router-1 -- Router-1.dataSource - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.034326] user: [0.027926] system: [0.006400] mem: 1829280
+Router-1 -- Notifier-1 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.000176] user: [0.000102] system: [0.000074] mem: 4256
+Router-1 -- Dispatcher-5 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.036126] user: [0.032171] system: [0.003955] mem: 1054496
+Router-1 -- Dispatcher-6 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.002260] user: [0.001896] system: [0.000364] mem: 54152
+Router-1 -- AppStart-Router-1 - Router-1 --  starttime: [2018/02/20 13:50:37.306] elapsed: [34.334] cpu: [0.100819] user: [0.091999] system: [0.008820] mem: 5801664
+Router-1 -- DataConsumer - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.016829] user: [0.015671] system: [0.001158] mem: 459440
+Router-1 -- agg-point-1-1-collected-1514513915-IOThread - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.006752] user: [0.006046] system: [0.000706] mem: 5128
+Router-1 -- forwarder_probe - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.000159] user: [0.000077] system: [0.000082] mem: 544
+Router-1 -- Thread-10 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.010957] user: [0.009405] system: [0.001552] mem: 456976
+Router-1 -- Thread-11 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.004437] user: [0.003999] system: [0.000438] mem: 134576
+Router-1 -- agg-point-1-1-forwarded-1434775500-IOThread - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.000386] user: [0.000169] system: [0.000217] mem: 0
+Router-1 -- agg-point-1-1-filtered-727995600-IOThread - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.000419] user: [0.000197] system: [0.000222] mem: 0
+Router-1 -- localhostForwarderDataSource - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.000087] user: [0.000037] system: [0.000050] mem: 32
+Router-1 -- info-source-1-log-421031011-IOThread - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.001692] user: [0.001186] system: [0.000506] mem: 4784
+Router-1 -- info-source-1 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.002089] user: [0.001774] system: [0.000315] mem: 19712
+Router-1 -- info-sourceelapsedTime - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.022038] user: [0.020098] system: [0.001940] mem: 510104
+Router-1 -- Notifier-2 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.000180] user: [0.000098] system: [0.000082] mem: 4256
+Router-1 -- Dispatcher-7 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.008818] user: [0.007468] system: [0.001350] mem: 590728
+Router-1 -- Notifier-3 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.000211] user: [0.000128] system: [0.000083] mem: 4256
+Router-1 -- Notifier-4 - Router-1 --  starttime: [0.000] elapsed: [0.000] cpu: [0.000170] user: [0.000104] system: [0.000066] mem: 4256
+Router-1 -- /localnet/InQueue - localnet --  starttime: [2018/02/20 13:50:27.493] elapsed: [44.147] cpu: [0.000895] user: [0.000644] system: [0.000251] mem: 1544
+Router-1 -- /Router-1.Connection-0/InQueue - TCPNetIF-11003 --  starttime: [2018/02/20 13:50:37.172] elapsed: [34.468] cpu: [0.003084] user: [0.002511] system: [0.000573] mem: 74968
+Router-1 -- /Router-1.Connection-0/OutQueue - TCPNetIF-11003 --  starttime: [2018/02/20 13:50:37.173] elapsed: [34.467] cpu: [0.000932] user: [0.000619] system: [0.000313] mem: 5552
+Router-1 -- /Router-1.Connection-0/TCPNetIF-11003 - TCPNetIF-11003 --  starttime: [2018/02/20 13:50:37.173] elapsed: [34.467] cpu: [0.002448] user: [0.002052] system: [0.000396] mem: 18144
+Router-1 -- /Router-1/plugins_usr.aggregator.appl.AggPoint/0 - Application-0 --  starttime: [2018/02/20 13:50:37.390] elapsed: [34.250] cpu: [0.000254] user: [0.000152] system: [0.000102] mem: 1368
+Router-1 -- /Router-1/plugins_usr.aggregator.appl.InfoSource/1 - Application-1 --  starttime: [2018/02/20 13:50:37.467] elapsed: [34.173] cpu: [0.000530] user: [0.000330] system: [0.000200] mem: 2032
+Router-1 -- /Router-1.Connection-1/InQueue - TCPNetIF-11005 --  starttime: [2018/02/20 13:50:45.571] elapsed: [26.069] cpu: [0.005617] user: [0.004831] system: [0.000786] mem: 72344
+Router-1 -- /Router-1.Connection-1/OutQueue - TCPNetIF-11005 --  starttime: [2018/02/20 13:50:45.571] elapsed: [26.069] cpu: [0.000536] user: [0.000336] system: [0.000200] mem: 5240
+Router-1 -- /Router-1.Connection-1/TCPNetIF-11005 - TCPNetIF-11005 --  starttime: [2018/02/20 13:50:45.571] elapsed: [26.069] cpu: [0.000640] user: [0.000487] system: [0.000153] mem: 5856
+Router-1 -- /Router-1.Connection-2/InQueue - TCPNetIF-11007 --  starttime: [2018/02/20 13:50:59.190] elapsed: [12.450] cpu: [0.001533] user: [0.001252] system: [0.000281] mem: 64024
+Router-1 -- /Router-1.Connection-2/OutQueue - TCPNetIF-11007 --  starttime: [2018/02/20 13:50:59.190] elapsed: [12.450] cpu: [0.000467] user: [0.000274] system: [0.000193] mem: 4928
+Router-1 -- /Router-1.Connection-2/TCPNetIF-11007 - TCPNetIF-11007 --  starttime: [2018/02/20 13:50:59.190] elapsed: [12.450] cpu: [0.000652] user: [0.000492] system: [0.000160] mem: 5848
+Router-1 -- /Router-1.Connection-3/InQueue - TCPNetIF-11009 --  starttime: [2018/02/20 13:51:11.036] elapsed: [0.604] cpu: [0.000549] user: [0.000424] system: [0.000125] mem: 30664
+Router-1 -- /Router-1.Connection-3/OutQueue - TCPNetIF-11009 --  starttime: [2018/02/20 13:51:11.036] elapsed: [0.604] cpu: [0.000294] user: [0.000162] system: [0.000132] mem: 4616
+Router-1 -- /Router-1.Connection-3/TCPNetIF-11009 - TCPNetIF-11009 --  starttime: [2018/02/20 13:51:11.037] elapsed: [0.603] cpu: [0.000321] user: [0.000215] system: [0.000106] mem: 4920
+\end{lstlisting}
+

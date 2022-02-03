@@ -1,0 +1,141 @@
+\subsection{Router Configuration Options}
+
+% The table of router configuration options
+
+% This needs a few passes to layout correctly
+
+{
+  \renewcommand{\arraystretch}{1.6} 
+  \renewcommand{\tabcolsep}{1.1ex}
+
+
+\small
+
+% longtable lines
+\begin{longtable}{ | p{7.5cm} | p{6.5cm} | }
+
+ \caption{Router Configuration Options} \\
+ \hline \multicolumn{2}{| c |} {\textbf{Configuration Options}}\\
+ \hline  {\textbf{Field}} & {\textbf{Description}} \\
+ \endhead
+
+
+
+\hline
+\footnotesize{\texttt{<RouterOptions>}} & The top level node for all
+configuration options to the Router. \\
+\hline \hline
+
+% Router
+
+\hline
+\footnotesize{\texttt{<Router>} (optional)}} &
+The node for specifying the actual Router class.
+\\
+
+\hline
+\footnotesize{\texttt{<Router> $\rightarrow$ <RouterClass>}} &
+The class name of the virtual router to start.
+\newline
+String: The default is \texttt{usr.router. Router}.
+ \\
+
+% RoutingParameters
+
+\hline
+\footnotesize{\texttt{<RoutingParameters>}} &
+The node for specific options for  the routing.
+\\
+
+\hline
+\footnotesize{\texttt{<RoutingParameters> $\rightarrow$ <LinkType>}} &
+What kind of transport is used for the virtual link: either UDP or TCP.
+\newline
+Default option is \texttt{TCP}.
+ \\
+
+\hline
+\footnotesize{\texttt{<RoutingParameters> $\rightarrow$ <MaxCheckTime>}} &
+How many millis to wait between checks of routing table.
+\newline
+Example option is \texttt{60000}.
+ \\
+
+\hline
+\footnotesize{\texttt{<RoutingParameters> $\rightarrow$ <MinNetIFUpdateTime>}} &
+Shortest interval between routing updates down given NetIF.
+\newline
+Example option is \texttt{5000}.
+ \\
+
+\hline
+\footnotesize{\texttt{<RoutingParameters> $\rightarrow$ <MaxNetIFUpdateTime>}} &
+Longest interval between routing updates down given NetIF.
+\newline
+Example option is \texttt{30000}.
+\\
+\hline
+\footnotesize{\texttt{<RoutingParameters> $\rightarrow$ <DatagramType>}} &
+\newline
+String: Value is class name which will be datagram class used by network.
+E.g. usr.net.GIDDatagram.  String must point to valid class implementing
+Datagram interface.
+\\
+\hline 
+\hline
+
+% APManager
+
+\hline 
+\footnotesize{\texttt{<APManager>}} &
+The node for specific options for  the APManager. \\
+
+\hline
+\footnotesize{\texttt{<APManager> $\rightarrow$ <Name>}} &
+The name of the Aggregation Point selection algorithm.
+\newline
+Options are \texttt{None}, \texttt{Pressure}, \texttt{Random}, or \texttt{HotSpot}
+ \\
+
+\hline
+\footnotesize{\texttt{<APManager> $\rightarrow$ <MaxAPs>}} &
+The maximum number of APs allowed. \\
+
+\hline
+\footnotesize{\texttt{<APManager> $\rightarrow$ <MinAPs>}} &
+The minimum number of APs allowed. \\
+
+\hline
+\footnotesize{\texttt{<APManager> $\rightarrow$ <RouterConsiderTime>}} &
+Time router reconsiders APs. \\
+
+\hline
+\footnotesize{\texttt{<APManager> $\rightarrow$ <ControllerConsiderTime>}} &
+Time controller reconsiders APs. \\
+
+\hline
+\footnotesize{\texttt{<APManager> $\rightarrow$ <MaxAPWeight>}} &
+Maximum link weight an AP can be away. \\
+
+\hline
+\footnotesize{\texttt{<APManager> $\rightarrow$ <MinPropAP>}} &
+Minimum proportion of APs in the network. \\
+
+\hline
+\footnotesize{\texttt{<APManager> $\rightarrow$ <MonitorType>}} &
+Maximum proportion of APs in the network. \\
+\hline 
+\hline
+
+% Output
+
+\hline
+\footnotesize{\texttt{<Output>}} &
+The node for specific options for  generating output from a run. \\
+\hline
+
+\end{longtable}
+
+
+\normalsize
+}

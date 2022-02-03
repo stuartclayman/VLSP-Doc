@@ -1,0 +1,240 @@
+The following table shows the standard Java interface for
+DatagramSockets. It shows the method, what the method does, and
+whether it is supported by the User Space Routing framework.
+
+
+% The table of methods
+
+% This needs a few passes to layout correctly
+{
+  \renewcommand{\arraystretch}{1.6} 
+  \renewcommand{\tabcolsep}{1.1ex}
+
+
+
+\small
+
+% longtable lines
+\begin{longtable}{ | p{7cm} | p{5.6cm} | p{1.2cm} | }
+
+ \caption{DatagramSocket Method Support} \\
+
+ \hline \multicolumn{3}{| c |} {\textbf{Method Support}}\\
+
+ \hline  {\textbf{Method}} & {\textbf{Description}} & {\textbf{In\linebreak[4]USR}}\\
+
+ \endhead
+
+
+\hline
+\footnotesize{\texttt{DatagramSocket()}} & 
+          Constructs a datagram socket and binds it to any available
+          port on the local host machine.& 
+          YES \\
+
+%protected	DatagramSocket(DatagramSocketImpl impl) 
+%
+%          Creates an unbound datagram socket with the specified DatagramSocketImpl.
+
+
+\hline
+\footnotesize{\texttt{DatagramSocket(int port)}} & 
+          Constructs a datagram socket and binds it to the specified
+          port on the local host machine. &
+          YES \\
+
+\hline
+\footnotesize{\texttt{DatagramSocket(int port, InetAddress addr)}} & 
+          Creates a datagram socket, bound to the specified local
+          address. &
+          REPL \\
+\hline
+\multicolumn{1}{| l } { \emph{Replacement} $\Rightarrow$ } &
+\multicolumn{2}{ l |} {\footnotesize{\texttt{DatagramSocket(Address addr, int port)}}} \\
+
+\hline
+\footnotesize{\texttt{DatagramSocket(SocketAddress bindaddr)}} & 
+          Creates a datagram socket, bound to the specified local
+          socket address. &
+          NO \\
+
+\hline
+\footnotesize{\texttt{void bind(SocketAddress addr)}} & 
+          Binds this DatagramSocket to a specific address \& port. &
+          REPL \\
+\hline
+\multicolumn{1}{| l } { \emph{Replacement} $\Rightarrow$ } &
+\multicolumn{2}{ l |} {\footnotesize{\texttt{void bind(int port)}}} \\
+
+\hline
+\footnotesize{\texttt{void close()}} &
+          Closes this datagram socket. &
+          YES \\
+
+\hline
+\footnotesize{\texttt{void connect(InetAddress addr, int port)}} &
+          Connects the socket to a remote address for this socket. &
+          REPL \\
+
+\hline
+\multicolumn{1}{| l } { \emph{Replacement} $\Rightarrow$ } &
+\multicolumn{2}{ l |} {\footnotesize{\texttt{void connect(Address address, int port)}}} \\
+
+\hline 
+\footnotesize{\texttt{void connect(SocketAddress addr)}} &
+          Connects this socket to a remote socket address (IP address + port number).&
+          YES \\
+
+\hline
+\footnotesize{\texttt{void disconnect()}} &
+          Disconnects the socket. &
+          YES \\
+\hline
+\footnotesize{\texttt{InetAddress getInetAddress()}} &
+          Returns the address to which this socket is connected. &
+          REPL \\
+\hline
+\multicolumn{1}{| l } { \emph{Replacement} $\Rightarrow$ } &
+\multicolumn{2}{ l |} {\footnotesize{\texttt{Address getRemoteAddress()}}} \\
+
+\hline
+\footnotesize{\texttt{InetAddress getLocalAddress()}} &
+          Gets the local address to which the socket is bound. &
+          YES \\
+\hline
+\multicolumn{1}{| l } { \emph{Replacement} $\Rightarrow$ } &
+\multicolumn{2}{ l |} {\footnotesize{\texttt{Address getLocalAddress()}}} \\
+
+\hline
+\footnotesize{\texttt{int getLocalPort()}} &
+          Returns the port number on the local host to which this
+          socket is bound. &
+          YES \\
+\hline
+\footnotesize{\texttt{SocketAddress getLocalSocketAddress()}} &
+          Returns the address of the endpoint this socket is bound to,
+          or null if it is not bound yet. &
+          NO \\
+\hline
+\footnotesize{\texttt{int getPort()}} &
+          Returns the port for this socket. &
+          YES \\
+\hline
+\footnotesize{\texttt{SocketAddress getRemoteSocketAddress()}} &
+          Returns the address of the endpoint this socket is connected
+          to, or null if it is unconnected. &
+          NO \\
+\hline
+\footnotesize{\texttt{boolean isBound()}} &
+          Returns the binding state of the socket. &
+          YES \\
+\hline
+\footnotesize{\texttt{boolean isClosed()}} &
+          Returns whether the socket is closed or not. &
+          YES \\
+\hline
+\footnotesize{\texttt{boolean isConnected()}} &
+          Returns the connection state of the socket. &
+          YES \\
+\hline
+\footnotesize{\texttt{void receive(DatagramPacket p)}} &
+          Receives a datagram packet from this socket. &
+          REPL \\
+\hline
+\multicolumn{1}{| l } { \emph{Replacement} $\Rightarrow$ } &
+\multicolumn{2}{ l |} {\footnotesize{\texttt{Datagram receive()}}} \\
+
+\hline
+\footnotesize{\texttt{void send(DatagramPacket p)}} &
+          Sends a datagram packet from this socket. &
+          REPL \\
+\hline
+\multicolumn{1}{| l } { \emph{Replacement} $\Rightarrow$ } &
+\multicolumn{2}{ l |} {\footnotesize{\texttt{send(Datagram dg)}}} \\
+
+\hline
+\hline
+\multicolumn{3}{| p{12cm} |} {
+\newline
+\textit{The DatagramSocket of USR does not support any Socket Options 
+or Traffic Class functions, and so none of these methods are
+supported.}
+\newline
+}\\
+
+%\hline
+%static void setDatagramSocketImplFactory(DatagramSocketImplFactory fac)}} &
+%          Sets the datagram socket implementation factory for the
+%          application. &
+%          NO \\
+\hline
+\footnotesize{\texttt{DatagramChannel getChannel()}} &
+          Returns the unique DatagramChannel object associated with
+          this datagram socket, if any. &
+          NO \\
+\hline
+\footnotesize{\texttt{boolean getBroadcast()}} &
+          Tests if SO\_BROADCAST is enabled. &
+          NO \\
+\hline
+\footnotesize{\texttt{void setBroadcast(boolean on)}} &
+          Enable/disable SO\_BROADCAST. &
+          NO \\
+\hline
+\footnotesize{\texttt{boolean getReuseAddress()}} &
+          Tests if SO\_REUSEADDR is enabled. &
+          NO \\
+\hline
+\footnotesize{\texttt{int getSendBufferSize()}} &
+          Get value of the SO\_SNDBUF option for this DatagramSocket,
+          that is the buffer size used by the platform for output on
+          this DatagramSocket. &
+          NO \\
+\hline
+\footnotesize{\texttt{int getSoTimeout()}} &
+          Retrive setting for SO\_TIMEOUT. &
+          NO \\
+\hline
+\footnotesize{\texttt{int getReceiveBufferSize()}} &
+          Get value of the SO\_RCVBUF option for this DatagramSocket,
+          that is the buffer size used by the platform for input on
+          this DatagramSocket. &
+          NO \\
+\hline
+\footnotesize{\texttt{void setReceiveBufferSize(int size)}} &
+          Sets the SO\_RCVBUF option to the specified value for this
+          DatagramSocket. &
+          NO \\
+\hline
+\footnotesize{\texttt{void setReuseAddress(boolean on)}} &
+          Enable/disable the SO\_REUSEADDR socket option. &
+          NO \\
+\hline
+\footnotesize{\texttt{void setSendBufferSize(int size)}} &
+          Sets the SO\_SNDBUF option to the specified value for this
+          DatagramSocket. &
+          NO \\
+\hline
+\footnotesize{\texttt{void setSoTimeout(int timeout)}} &
+          Enable/disable SO\_TIMEOUT with the specified timeout, in
+          milliseconds. &
+          NO \\
+\hline
+\footnotesize{\texttt{int getTrafficClass()}} &
+          Gets traffic class or type-of-service in the IP datagram
+          header for packets sent from this DatagramSocket. &
+          NO \\
+\hline
+\footnotesize{\texttt{void setTrafficClass(int tc)}} &
+          Sets traffic class or type-of-service octet in the IP
+          datagram header for datagrams sent from this
+          DatagramSocket. & NO \\
+\hline 
+
+\end{longtable}
+
+\normalsize
+
+\label{usr:method-table}
+
+}

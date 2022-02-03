@@ -1,0 +1,127 @@
+In this appendix there is a description of the datagrams that are sent
+by the routers. First there is a datagram outline, then the datagram
+elements are described in more detail.
+
+\begin{table}[h!]
+{
+  \renewcommand{\arraystretch}{1.2} 
+  \renewcommand{\tabcolsep}{1.2ex}
+
+  \small
+
+%\begin{tabular} { | l | l | l | l | l | l | l | l | l | l | l | l | l | l | l | }
+\begin{tabular} { | l | l | l | l | l | l | l | l | l | l | l | }
+\hline
+{\small{USRD}}%
+& \parbox[t]{0.7cm}{hdr\\len}%
+& \parbox[t]{0.7cm}{total\\len}%
+& flags%
+& ttl%
+& \parbox[t]{0.9cm}{proto\\col}%
+& \parbox[t]{0.7cm}{src\\addr}%
+& \parbox[t]{0.7cm}{dst\\addr}%
+& \textit{pad} %
+& \parbox[t]{0.7cm}{src\\port}%
+& \parbox[t]{0.7cm}{dst\\port} \\% 
+\hline
+\end{tabular} \newline
+$\hookrightarrow$ $\quad$
+\begin{tabular} { | l | l | l | l |}
+  \parbox[t]{0.9cm}{time\\stamp}%
+& \parbox[t]{0.7cm}{flow\\id}%
+& \parbox[t]{0.7cm}{pay\\load}%
+& \parbox[t]{0.8cm}{check\\sum} \\
+\hline
+\end{tabular}
+
+\normalsize
+
+}
+
+\end{table}
+
+\noindent The following table \ref{datagram:elements} presents each of
+these elements in more
+detail, by showing the number of bytes each element takes, and giving
+a description of the element.
+
+
+{
+  \renewcommand{\arraystretch}{1.6} 
+  \renewcommand{\tabcolsep}{1.1ex}
+
+  \small
+
+\begin{longtable}{ | l | l | l | p{9.5cm} | }
+
+\caption{Datagram Elements} \label{datagram:elements}\\
+
+\hline  \multicolumn{4}{| c |} {\textbf{Datagram Elements}}\\
+
+\hline  {\textbf{Element}} & {\textbf{Bytes}} & {\textbf{Position}} & {\textbf{Description}} \\
+
+\endhead
+
+\hline
+
+USRD & 4 & 0 & The literal String ``USRD''. \\
+\hline
+
+Hdr Len & 1 & 4 & The size, in bytes, of the header.\newline
+This currently set to 36. \\
+\hline
+
+Total Len & 2 & 5 & The size, in bytes, of the whole Datagram. \\
+\hline
+
+Flags & 1 & 7 & Some optional flags. \newline
+This gives 8 bits to play with. \\
+\hline
+
+TTL & 1 & 8 & The \textsc{TTL} of a Datagram. \\
+\hline
+
+Protocol & 1 & 9 & The protocol specified for a particular Datagram.\newline
+Currently there is a \textsc{CONTROL} protocol and a
+\textsc{DATA} protocol.  \\
+\hline
+
+Src Addr & 4 & 10 & The source address of the Datagram. \\
+\hline
+
+Dst Addr & 4 & 14 & The destination address of the Datagram. \\
+\hline
+
+Pad & 2 & 18 & Some spare bytes, currently padded as 2 spaces {$\bigtriangledown\bigtriangledown$}. \\
+\hline
+
+Src Port & 4 & 20 & The source port of the Datagram. \\
+\hline
+
+Dst Port & 4 & 22 & The destination port of the Datagram. \\
+\hline
+
+Timestamp & 8 & 24 & The time the Datagram was created. \\
+\hline
+
+Flow ID & 4 & 32 & A flow ID. \\
+\hline
+
+Payload & $N$ &  36 & The payload itself.  \newline
+It's size, $N$, is Total Len $-$ Hdr Len $-$ 4. \\
+\hline
+
+Checksum & 4 & $ 36 + N$ & The checksum. \\
+\hline
+
+\end{longtable}
+
+\normalsize
+
+}
+
+
+\noindent The following table presents the methods that can be used to
+manipulate a Datagram object.
+
+\emph{TODO}

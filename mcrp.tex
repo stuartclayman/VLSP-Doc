@@ -1,0 +1,271 @@
+In this Appendix there is a description of the MCRP protocol, with
+explaining each request and response.
+
+% This needs a few passes to layout correctly
+
+In this Appendix there is a description of the MCRP protocol, with
+explaining each request and response.
+
+
+The commands that can be sent to a Router through its Management
+Console are shown here.
+These commands affect the router in various ways, where some are quite
+lightweight (such as getting the Router's name), and others are more
+heavyweight (such as connecting the Router to another Router).
+
+Other components connect to the router via the Management Console,
+acting in essence as a client, to interact with the Router.
+In most instances, a permanent connection will be made by the Local Controller
+on the machine that runs the Router.   The Router also accepts
+multiple connections from any number of elements. It is  usually other
+Routers thay connect to Routers in order to create new virtual network connections.
+Care needs
+to be taken if multiple elements send control commands.
+
+The following table shows each of these commands.
+
+% This needs a few passes to layout correctly
+{
+  \renewcommand{\arraystretch}{1.2} 
+  \renewcommand{\tabcolsep}{1.1ex}
+
+
+% longtable lines
+\begin{longtable}[l]{ | l | p{10cm} | }
+
+ \caption{Router Commands} \\
+
+ \hline \multicolumn{2}{| c |} {\textbf{Router Commands}}\\
+
+ \hline  {\textbf{Command}} & {\textbf{Description}}\\
+
+ \endhead
+\hline
+
+
+GetName & Gets the name of the Router. 
+\\
+\hline
+
+SetName & Sets the name of the Router.
+\\
+\hline
+
+GetRouterAddress & Gets the address of the Router.
+\\
+\hline
+
+SetRouterAddress & Sets the address of the Router.
+\\
+\hline
+
+GetConnectionPort & Gets the port that the Router listens on in
+order to accept new Router to Router virtual network connections.
+\\
+\hline
+
+ListConnections & Lists all of the virtual network connections that
+the Router has.
+\\
+\hline
+
+IncomingConnection & Tells the Router that a new virtual network
+connection \emph{has} already come in from another specified Router.  \newline
+This command comes from another Router, and is the second phase of
+Router to Router connections. \\
+\hline
+
+CreateConnection & Tells the Router that a new virtual network
+connection is coming in from another specified Router.  \newline
+This command comes from another Router, and is the first phase of
+Router to Router connections. \\
+\hline
+
+SetLinkWeight & Set the weight of a specified virtual network
+connection / link between two Routers.
+\hline
+
+EndLink & End a specified virtual network connection / link between two Routers. \\
+\hline
+
+ListRoutingTable & Lists the whole routing table. \\
+\hline
+
+GetPortName & Gets the name of a specified port. \\
+\hline
+
+GetPortAddress & Get the address associated with a specified port.\\
+\hline
+
+SetPortAddress & Set the address associated with a specified port.\\
+\hline
+
+GetPortWeight & Get the weight associated with a specified port.\\
+\hline
+
+SetPortWeight & Set the weight associated with a specified port.\\
+\hline
+
+GetPortRemoteRouter & Gets the name of the remote router, at the other
+end of a virtual network connection, on a specified port.
+\\
+\hline
+
+GetPortRemoteAddress &  Gets the address of the remote router, at the other
+end of a virtual network connection, on a specified port.
+\\
+\hline
+
+AppStart & Start an application on the Router. \\
+\hline
+
+AppStop & Stop an application. \\
+\hline
+
+AppList & List all the applications running on the Router. \\
+\hline
+
+GetNetIFStats & Get the statistics for all the $network interfaces$ on
+the Router. \\
+\hline
+
+GetSocketStats & Get the statistics for all the $sockets$ on
+the Router.\\
+\hline
+
+MonitoringStart & Start the monitoring sub-system and all the
+configured probes on the Router. \\
+\hline
+
+MonitoringStop & Stop the monitoring sub-system and all the
+configured probes on the Router. \\
+\hline
+
+SetAP & Set the Aggregation Point config for a Router. \\
+\hline
+
+ReadOptionsFile & Read the configuration options for routers from a
+file, e.g. routeroptions.xml. \\
+\hline
+
+ReadOptionsString & Read the configuration options for routers, passed
+in a a big string. \\
+\hline
+
+ShutDown & Tells the Router to shutdown.  All applications will be
+stopped, all network connections to other Routers will be closed, and
+every component of the router will clean up. \\
+\hline
+
+RouterOK & Asks the router if it is OK.\\
+\hline
+
+% spurious other stuff
+%% Ping & \\
+%% \hline
+
+%% Echo & \\
+%% \hline
+
+%% Run \\
+%% \hline
+
+
+\end{longtable}  
+
+}
+
+
+
+%% {
+%%   \renewcommand{\arraystretch}{1.6} 
+%%   \renewcommand{\tabcolsep}{1.1ex}
+
+
+%% \small
+
+%% % longtable lines
+%% \begin{longtable}{ | p{4cm}  p{3cm} | l | l | }
+
+%%  \caption{Generic MCRP Protocol Values} \\
+%%  \hline \multicolumn{4}{| c |} {\textbf{Generic MCRP Protocol Values}}\\
+%%  \hline  {\textbf{Request}} & & {\textbf{Success Code}} & {\textbf{Error Code}}\\
+%%  \endhead
+
+%% \hline
+
+
+%% \smalltt{QUIT} & & 200 & 400 \\
+%% \hline & \multicolumn{3}{| p{9cm} |}{
+%% Quit talking to the Component.
+%% It closes a connection to the Management Console of the Component.
+%% } \\
+%% \hline 
+%% \multicolumn{4}{| p{9cm} |} {
+%% \emph{Request:} \smalltt{QUIT} \newline
+%% \emph{Response:} \smalltt{200 BYE}
+%% } \\
+
+%% \hline \hline
+
+%% \smalltt{SHUT\_DOWN} & & 201 & 401 \\
+%% \hline & \multicolumn{3}{| p{9cm} |} {
+%% Shut down the Component.
+%% } \\
+
+%% \hline \hline
+
+%% \smalltt{ON\_ROUTER} & & 202 & 401 \\
+%% \hline & \multicolumn{3}{| p{9cm} |} {
+%% Send an MCRP request for the specified Router.
+%% \newline
+%% \smalltt{ON\_ROUTER router\_id className args}
+%% } \\
+%% \hline \multicolumn{4}{| p{9cm} |} {
+%% \emph{Request:} \smalltt{ON\_ROUTER 1 usr.applications.Ping 2}
+%% } \\
+%% \hline \hline
+
+%% \hline
+
+%% \end{longtable}
+
+%% \normalsize
+%% }
+
+%% {
+%%   \renewcommand{\arraystretch}{1.6} 
+%%   \renewcommand{\tabcolsep}{1.1ex}
+
+
+%% \small
+
+%% \begin{longtable}{ | p{4cm}  p{3cm} | l | l | }
+
+%%  \caption{Router Specific MCRP Protocol Values} \\
+%%  \hline \multicolumn{4}{| c |} {\textbf{Router Specific MCRP Protocol Values}}\\
+%%  \hline  {\textbf{Request}} & & {\textbf{Success Code}} & {\textbf{Error Code}}\\
+%%  \endhead
+
+%% \hline
+
+%% \smalltt{GET\_NAME} & & 221 & 400 \\
+%% \hline & \multicolumn{3}{| p{9cm} |} {
+%% Get the name of a router.
+%% } \\
+%% \hline
+%% \multicolumn{4}{| p{9cm} |} {
+%% \emph{Request:} \smalltt{GET\_NAME} \newline
+%% \emph{Response:} \smalltt{221 Router-17}
+%% } \\
+
+%% \hline \hline
+
+%% \hline
+
+%% \end{longtable}
+
+
+
+%% \normalsize
+%% }

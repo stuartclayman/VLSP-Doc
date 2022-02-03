@@ -1,0 +1,235 @@
+\documentclass[a4paper, 11pt, twoside]{memoir}
+
+%\usepackage[a4paper,width=15cm, left=3cm]{geometry}   %scale=0.7
+\usepackage{geometry}
+\usepackage{supertabular}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{float}
+%\usepackage{setspace}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{latexsym}
+\usepackage[pdftex]{hyperref}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{needspace}
+
+%\spacing{1.213}  % not needed in memoir
+\OnehalfSpacing
+
+\setlist[itemize]{noitemsep} 
+%\setlist[itemize]{itemsep=1cm}
+
+
+%doesnt work \usepackage[tight,footnotesize]{subfigure}
+
+\usepackage{changepage}   % for the adjustwidth environment
+
+\usepackage{listings}
+
+\lstdefinelanguage{Java} {
+    basicstyle={\fontsize{10.4}{12}\ttfamily},columns=flexible,mathescape=true
+}
+
+\lstdefinelanguage{json} {
+  basicstyle={\fontsize{10.4}{12}\ttfamily},
+  breaklines=true,language=java,columns=flexible, breakatwhitespace=true,
+}
+
+\lstdefinelanguage{config} {
+  basicstyle={\fontsize{10.6}{12}\ttfamily},
+  breaklines=true,columns=flexible, breakatwhitespace=true,
+  frame=single, basicstyle=\scriptsize\ttfamily
+}
+
+
+
+\newcommand{\code}[1]{%
+  \vspace{0.8em} \small{ \texttt{#1}} \normalsize \vspace{1em}%
+}
+
+\newcommand{\smalltt}[1]{%
+  \footnotesize{ \texttt{#1}}%
+}
+
+\renewcommand{\appendix}[1]{%
+   \newpage \section{#1}%
+}
+
+\definecolor{palegray}{gray}{0.8}
+\definecolor{midgray}{gray}{0.6}
+
+\newcommand{\hr}{%
+  \needspace{5\baselineskip} \noindent{\color{midgray}\rule{\textwidth}{1pt}}%
+  \vspace{\glueexpr\baselineskip - 4pt plus 0pt minus 15pt\relax}
+}
+
+% memoir styles
+\pagestyle{book}
+\chapterstyle{madsen}  % veelo  madsen
+
+%%%% here we remap subsection -> section for compatibility with the 'article' style
+% Save the existing sectioning commands
+\makeatletter
+\let\oldsection\section
+\let\oldsubsection=\subsection
+\let\oldsubsubsection=\subsubsection
+
+
+% redefine subsection as oldsection
+\renewcommand{\subsection}{\@ifstar{\@subsectionstar}{\@subsectionnostar}}
+\newcommand{\@subsectionstar}[1]{\oldsection*{#1}}
+\newcommand{\@subsectionnostar}[1]{\oldsection{#1}}
+
+\renewcommand{\subsubsection}{\@ifstar{\@subsubsectionstar}{\@subsubsectionnostar}}
+\newcommand{\@subsubsectionstar}[1]{\oldsubsection*{#1}}
+\newcommand{\@subsubsectionnostar}[1]{\oldsubsection{#1}}
+
+
+\makeatother
+
+%%%% end
+
+% set TOC levels
+\settocdepth{subsection} 
+\setsecnumdepth{subsubsection}
+
+
+% page numbers
+ \copypagestyle{chapter}{plain}
+\makeoddfoot{chapter}{}{}{\thepage}
+\makeevenfoot{chapter}{\thepage}{}{}
+
+\makepagestyle{outer}
+\makeoddfoot{outer}{}{}{\thepage}
+\makeevenfoot{outer}{\thepage}{}{}
+\pagestyle{outer}
+
+% front cover specs
+\setlength{\droptitle}{-2em}
+\pretitle{\begin{flushright}\scshape\Huge}
+\posttitle{\par\end{flushright}\vskip 4em}
+
+\preauthor{\begin{flushright}
+    \Large \scshape \lineskip 0.5em%
+    \begin{tabular}[t]{c}} 
+
+\postauthor{\end{tabular}\par\end{flushright}\vskip 4em}
+
+\predate{\begin{flushright}\scshape\large}
+\postdate{\par\end{flushright}
+  \vskip 5em%
+  \begin{figure}[h!]
+    \begin{flushright}
+      \includegraphics[width=10cm]{images/visualization}
+    \end{flushright}
+  \end{figure}
+
+}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,positioning,matrix}
+
+% begin the document
+\begin{document}
+
+\frontmatter
+
+\title{A Guide to User Space Routing: \\
+VLSP -- The Very Lightweight Network \& Service Platform}
+\date{Jan 2018}
+\author{Stuart Clayman}
+
+\begin{titlingpage} 
+\maketitle 
+\end{titlingpage}
+
+
+\input{abstract}
+
+% insert the table of contents
+\clearpage
+\tableofcontents
+
+\mainmatter
+
+\chapter{Introduction}
+\label{chap:intro}
+\input{intro}
+
+\chapter{The Platform}
+\label{chap:platform}
+\input{platform}
+
+\chapter{Usage}
+\label{chap:usage}
+\input{usage}
+
+\chapter{Internal Design of Elements}
+\label{chap:design}
+\input{design}
+
+\chapter{System Programmability}
+\label{chap:programmability}
+\input{programmability}
+
+%\chapter{Summary}
+%\label{chap:summary}
+%\input{summary}
+
+% \appendix
+
+\chapter{Appendix - Configuration Options}
+\label{chap:config}
+\input{config}
+
+\chapter{Appendix - REST API Component Interaction}
+\label{chap:restapi}
+\input{rest}
+
+\chapter{Appendix - Vim Client Methods}
+\label{chap:vimclient}
+\input{vimclient}
+
+\chapter{Appendix - Socket Interface Methods}
+\label{chap:methods}
+\input{methods}
+
+\chapter{Appendix - Datagram} 
+\label{chap:datagram}
+\input{datagram}
+
+\chapter{Appendix - Log Files}
+\label{chap:logfiles}
+\input{logfiles}
+
+\chapter{Appendix - Java Packages}
+\label{chap:packages}
+\input{packages}
+
+\chapter{Appendix - Router Commands}
+\label{chap:mcrp}
+\input{mcrp}
+
+\chapter{Papers using VLSP}
+\label{chap:papers}
+\input{papers}
+
+\chapter{Acknowledgements}
+\input{acknowledgements}
+
+
+\backmatter 
+
+\listoffigures
+
+\clearpage
+\listoftables
+
+\lstlistoflistings
+
+\end{document}
+
