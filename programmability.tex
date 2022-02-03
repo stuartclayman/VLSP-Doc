@@ -308,7 +308,7 @@ REST API call or by shutting down the whole system.
 
 \subsection{Writing Topology and Management Applications}
 
-In this section we present the mechanisms for writing topology focused
+This section presents the ways of writing topology focused
 applications and management
 applications for VLSP.  Such applications can include scenarios such
 as: (i) experiment setup, control, and execution; (ii) orchestration
@@ -323,8 +323,15 @@ The Vim Client, \texttt{usr.vim.VimClient} is a Java wrapper
 for the REST API, detailed in appendix \ref{chap:restapi}.
 The VimClient methods are shown in detail in appendix \ref{chap:vimclient},
 It is possible to write a Vim Client in any language, and we have
-versions of them written in \texttt{clojure} and also \texttt{Julia}.
+versions of them written in \texttt{clojure},  \texttt{Julia} and also
+ \texttt{python}.
 
+If you do not have VLSP Client yet, you can find the source on
+\textit{gitlab} at
+
+\code{https://gitlab.com/sclayman/vlsp-client}
+
+ 
 
 
 In the following example we show how to use the VimClient to create a
